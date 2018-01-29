@@ -1,0 +1,28 @@
+body 	{
+		background-image: url(http://ginva.com/wp-content/uploads/2012/07/city-skyline-wallpapers-008.jpg);
+		background-size: cover;
+}
+
+input[type=button]{
+	width: 300px;
+	height: 75px;
+	background: #fff;
+	border: 1px solid #fff;
+	cursor: pointer;
+	border-radius: 2px;
+	color: #a18d6c;
+	font-family: 'Exo', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	padding: 6px;
+	margin-top: 10px;
+}
+
+input[type=button]:hover{
+	opacity: 0.8;
+	color:#FF0004;
+}
+
+input[type=button]:active{
+	opacity: 0.6;
+}
