@@ -1,3 +1,3 @@
 <?php
-print("it works!");
+phpinfo();
 ?>
