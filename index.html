@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <script src="bower_components/vue/dist/vue.js"></script>
+    <script src="bower_components/vue-resource/dist/vue-resource.js"></script>
+    <title>Index</title>
+</head>
+<body>
+<div id="app">
+    <p v-for="result in results">
+        {{result["company_name"]}}<br>
+        {{result["cash"]}}<br>
+        <br>
+    </p>
+    <button v-on:click="php_get">Get Company Info</button>
+</div>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data:{
+            results: null
+        },
+        methods:{
+            php_get: function () {
+                this.$http.get("php/get_company.php")
+                    .then(function (response) {
+                        this.results=response.body;
+                    })
+            }
+        }
+    });
+
+</script>
+</body>
+</html>
