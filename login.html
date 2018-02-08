@@ -10,7 +10,7 @@
 <div id="login_form">
     <input type="text" v-model="form_info.username" title="Username">
     <input type="password" v-model="form_info.password" title="Password">
-    <button v-on:click="submit">Submit</button>
+    <button @click="submit">Submit</button>
 
 </div>
 
@@ -18,7 +18,7 @@
     var loginapp = new Vue({
         el:'#login_form',
         data:{
-            form_info:{},
+            form_info:{}
 
         },
         methods:{
