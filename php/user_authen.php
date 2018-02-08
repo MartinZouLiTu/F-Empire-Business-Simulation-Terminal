@@ -10,9 +10,24 @@ include('db.php');
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 $input = json_decode(file_get_contents("php://input"),true);
-$sql='select user_id from company_info where username ="'.$input['username'].'"and password ="'.$input['password'].'"';
-$result = mysqli_query($db,$sql);
-$id = (int)mysqli_fetch_array($result,MYSQLI_ASSOC)['user_id'];
-$status=mysqli_num_rows($result)==1 ? 1 : 0;
+$sql_prep='select user_id from company_info where username = ? and password = ?';
+if(
+    $stmt = mysqli_prepare($db,$sql_prep) and
+    mysqli_stmt_bind_param($stmt,'ss',$input['username'],$input['password']) and
+    mysqli_stmt_execute($stmt) and
+    mysqli_stmt_store_result($stmt)
+){
+    if(mysqli_stmt_num_rows($stmt)==1){
+        $status=1;
+        mysqli_stmt_bind_result($stmt, $id_result);
+        mysqli_stmt_fetch($stmt);
+        $id=(int)$id_result;
+    }
+    else{
+        $status = 0;
+        $id = null;
+    }
+
+}
 $output = array('id'=>$id,'status'=>$status);
 print(json_encode($output));
