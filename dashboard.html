@@ -5,8 +5,24 @@
     <title>Dashboard</title>
     <script src="bower_components/vue/dist/vue.js"></script>
     <script src="bower_components/vue-resource/dist/vue-resource.js"></script>
+    <link rel="stylesheet" href="foundation/css/foundation.css">
 </head>
 <body>
+<div class="top-bar">
+    <div class="top-bar-left">
+        <ul class="dropdown menu" data-dropdown-menu>
+            <li class="menu-text">Dashboard</li>
+        </ul>
+    </div>
+    <div class="top-bar-right">
+        <ul class="dropdown menu" data-dropdown-menu>
+            <li class="menu-text">
+                <a href="php/logout.php">Sign Out</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
 <div id="info">
     <table border="0">
         <tr><td>{{username}}</td></tr>
