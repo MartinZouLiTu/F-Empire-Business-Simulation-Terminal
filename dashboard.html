@@ -6,28 +6,25 @@
     <script src="bower_components/vue/dist/vue.js"></script>
     <script src="bower_components/vue-resource/dist/vue-resource.js"></script>
     <link rel="stylesheet" href="foundation/css/foundation.css">
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/femp_theme.css">
 </head>
 <body>
-<div class="top-bar">
-    <div class="top-bar-left">
-        <ul class="dropdown menu" data-dropdown-menu>
-            <li class="menu-text">
-                Dashboard
-            </li>
-            <li class="menu-text" id="info">
-                {{company_name}}
-            </li>
-        </ul>
-    </div>
-    <div class="top-bar-right">
-        <ul class="dropdown menu" data-dropdown-menu>
-            <li class="menu-text">
-                <a href="php/logout.php">Sign Out</a>
-            </li>
-        </ul>
+<div id="info">
+    <div class="w3-container femp-theme w3-center"><h2>Participant Dashboard</h2></div>
+    <div class="w3-bar femp-theme-l1">
+        <div class="w3-left w3-bar-item">
+            Welcome, {{username}}
+        </div>
+        <a href="php/logout.php"><div class="w3-bar-item w3-right w3-hover-red">Log Out</div></a>
     </div>
 </div>
 
+
+
+
+    <!--<h4 v-html="news"></h4>-->
+</div>
 <script>
 
     var user_info = new Vue({
