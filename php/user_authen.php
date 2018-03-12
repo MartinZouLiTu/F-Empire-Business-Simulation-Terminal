@@ -7,6 +7,7 @@
  * if status==0, id==0
  */
 include('db.php');
+session_start();
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 $input = json_decode(file_get_contents("php://input"),true);
@@ -22,6 +23,7 @@ if(
         mysqli_stmt_bind_result($stmt, $id_result);
         mysqli_stmt_fetch($stmt);
         $id=(int)$id_result;
+        $_SESSION['login_user']=$id;
     }
     else{
         $status = 0;

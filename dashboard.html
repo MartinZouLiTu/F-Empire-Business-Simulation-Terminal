@@ -3,9 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <script src="bower_components/vue/dist/vue.js"></script>
+    <script src="bower_components/vue-resource/dist/vue-resource.js"></script>
 </head>
 <body>
+<div id="info">
+    <table border="0">
+        <tr><td>{{username}}</td></tr>
+        <tr><td>{{company_name}}</td></tr>
+        <tr><td>{{cash}}</td></tr>
+        <tr><td>{{loan}}</td></tr>
+        <tr><td>{{decision_allowed}}</td></tr>
 
+    </table>
+    <a href="php/logout.php"><p>Log out</p></a>
 </div>
+<script>
+
+    var user_info = new Vue({
+        el:'#info',
+        data:{
+            username: '',
+            company_name: '',
+            cash:'',
+            loan:'',
+            decision_allowed:0
+        },
+        methods:{
+            load:function () {
+                this.$http.get("php/session.php")
+                    .then(function (response) {
+                        if(response.body=='no_session'){window.location.href='login.html';}
+                        else{
+                            this.username=response.body['username'];
+                            this.company_name=response.body['company_name'];
+                            this.cash=response.body['cash'];
+                            this.loan=response.body['loan'];
+                            this.decision_allowed=response.body['decision_allowed'];
+
+                        }
+                    })
+            }
+        }
+    });
+    user_info.load();
+</script>
 </body>
 </html>
