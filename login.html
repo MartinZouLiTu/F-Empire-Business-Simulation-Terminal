@@ -23,9 +23,11 @@
     <div class="card-section"><br>
         <img src="img/user_ph.png" height="128" width="128"/><br><br>
         <div id="login_form">
-            <input type="text" v-model="form_info.username" title="Username" placeholder="Username">
-            <input type="password" v-model="form_info.password" title="Password" placeholder="Password">
-            <button class="button" @click="submit">Submit</button>
+            <form @submit.prevent="submit">
+                <input type="text" v-model="form_info.username" title="Username" placeholder="Username">
+                <input type="password" v-model="form_info.password" title="Password" placeholder="Password">
+                <button class="button" type="submit">Submit</button>
+            </form>
         </div>
     </div>
 </div>
