@@ -8,26 +8,21 @@
 </head>
 <body>
 <div id="app">
-    <p v-for="result in results">
-        {{result["company_name"]}}<br>
-        {{result["cash"]}}<br>
-        <br>
-    </p>
-    <button @click="php_get">Get Company Info</button>
+    <input v-model="price">
+    <input v-model="quantity">
+    <p>{{revenue}}</p>
 </div>
 
 <script>
     new Vue({
         el: '#app',
         data:{
-            results: null
+            price: 0,
+            quantity:0
         },
-        methods:{
-            php_get: function () {
-                this.$http.get("php/get_company.php")
-                    .then(function (response) {
-                        this.results=response.body;
-                    })
+        computed:{
+            revenue:function () {
+                return this.price*this.quantity;
             }
         }
     });
