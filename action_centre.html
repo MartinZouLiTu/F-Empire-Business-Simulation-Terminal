@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Action Centre</title>
+    <script src="bower_components/vue/dist/vue.js"></script>
+    <script src="bower_components/vue-resource/dist/vue-resource.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <link rel="stylesheet" href="foundation/css/foundation.css">
+    <link rel="stylesheet" href="css/femp_theme.css">
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+</head>
+<body>
+<div id="info">
+    <!--Top Bar-->
+    <div class="w3-container w3-camo-black w3-center w3-bar w3-tiny">
+        <div class="w3-bar-item"><h5>F-Empire</h5></div>
+        <a href="dashboard.html" class="w3-text-white"><div class="w3-bar-item w3-button w3-hover-black"><h5>Home</h5></div></a>
+        <a href="#"><div class="w3-bar-item w3-black w3-hover-black w3-text-white"><h5>Action Centre</h5></div></a>
+
+        <a href="php/logout.php"><div class="w3-right w3-bar-item w3-hover-red w3-text-white"><h5>Log Out</h5></div></a>
+        <div class="w3-bar-item w3-right"><h5><span class="glyphicon glyphicon-user"></span> {{username}}</h5></div>
+    </div><br>
+
+    <!--Body Content-->
+    <div class="container text-center">
+        <!--Left Bar-->
+        <div class="row">
+            <div class="col-sm-3 well">
+                <!--Year-->
+                <div class="well">
+                    <p class="w3-text-indigo"><b>Current Year</b></p>
+                    <h1><b>{{year}}</b></h1>
+                </div>
+                <!--List-->
+                <div class="well">
+                    <p class="w3-text-indigo"><b>Assets</b></p>
+                    <h5><b>Cash</b></h5>${{cash}}
+                    <h5><b>Loan</b></h5>${{loan}}
+                </div>
+                <div class="w3-button w3-indigo w3-bar w3-round w3-hover-blue" onclick="openWin()"><h5>News Portal</h5></div>
+            </div>
+
+            <!--Content-->
+            <div class="col-sm-7">
+                <div onclick="myFunction('Global_var')" class="w3-button w3-camo-black w3-hover-black col-sm-12"><h5>Global Decisions</h5></div>
+
+                <div id="Global_var" class="w3-container w3-hide"><br>
+                    <div class="w3-container w3-half">
+                        <div class="w3-container w3-card w3-light-gray w3-round">
+                            <h5><b>Loan</b></h5>
+                            <h6>Unpaid debt: ${{loan}}</h6>
+                            <input type="number" class="w3-input" placeholder="Loan amount"><br><br>
+                        </div><br>
+
+                    </div>
+                    <div class="w3-container w3-half">
+                        <div class="w3-container w3-card w3-light-gray w3-round">
+                            <h5><b>Factories</b></h5>
+                            <h6>Owned: ## Rented: ##</h6>
+                            <div class="w3-container w3-half" style="height: 75px;">
+                                <label>Buy</label>
+                            <input type="number" class="w3-input" placeholder="Buy">
+                            </div>
+                            <div class="w3-container w3-half" style="height: 75px;">
+                                <label>Rent</label>
+                                <input type="number" class="w3-input" placeholder="Rent">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="w3-container"><br></div>
+
+                <div class="w3-bar w3-camo-black col-sm-12 w3-round-small">
+                    <button class="w3-bar-item w3-button tablink w3-black" onclick="openAction(event,'News')">News</button>
+                    <button class="w3-bar-item w3-button tablink" onclick="openAction(event,'Prod1')">Product 1</button>
+                    <button class="w3-bar-item w3-button tablink" onclick="openAction(event,'Prod2')">Product 2</button>
+                </div>
+
+                <div id="News" class="w3-container w3-border w3-round-small decision col-sm-12" align="left">
+                    <p v-html="news" align="justify"></p>
+                </div>
+
+                <div id="Prod1" class="w3-container w3-border w3-round-small decision col-sm-12" style="display:none">
+                    <h2>Paris</h2>
+                    <p>Paris is the capital of France.</p>
+                </div>
+
+                <div id="Prod2" class="w3-container w3-border w3-round-small decision col-sm-12" style="display:none">
+                    <h2>Tokyo</h2>
+                    <p>Tokyo is the capital of Japan.</p>
+                </div>
+            </div>
+
+            <!--Support Bar-->
+            <div id="support_bar"></div>
+        </div>
+    </div>
+
+
+
+
+    <!--<h4 v-html="news"></h4>-->
+</div><br>
+<div id="footer"></div>
+
+<script>
+
+    var user_info = new Vue({
+        el:'#info',
+        data:{
+            username: '',
+            company_name: '',
+            cash:'',
+            loan:'',
+            decision_allowed:0,
+            year: null,
+            news: ''
+        },
+        methods:{
+            load:function () {
+                this.$http.get("php/session.php")
+                    .then(function (response) {
+                        if(response.body=='no_session'){window.location.href='login.html';}
+                        else{
+                            this.username=response.body['username'];
+                            this.company_name=response.body['company_name'];
+                            this.cash=response.body['cash'];
+                            this.loan=response.body['loan'];
+                            this.decision_allowed=response.body['decision_allowed'];
+                            this.year=response.body['year'];
+                            this.news=response.body['news'];
+                        }
+                    })
+            }
+        }
+    });
+    user_info.load();
+    $("#support_bar").load("modular/support_bar.html");
+    $("#footer").load("modular/footer.html");
+</script>
+<script>
+    function openAction(evt, tabName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("decision");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" w3-black", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " w3-black";
+    }
+</script>
+<script>
+    function myFunction(id) {
+        var x = document.getElementById(id);
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+            x.previousElementSibling.className += " w3-black";
+        } else {
+            x.className = x.className.replace(" w3-show", "");
+            x.previousElementSibling.className =
+            x.previousElementSibling.className.replace("w3-black", "");
+        }
+    }
+</script>
+<script>
+function openWin() {
+myWindow = window.open("news_portal.html", "_blank", "width=400, height=500");
+}
+</script>
+</body>
+</html>
