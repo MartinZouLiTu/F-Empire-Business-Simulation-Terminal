@@ -11,6 +11,9 @@
     <input v-model="price">
     <input v-model="quantity">
     <p>{{revenue}}</p>
+    <p v-if="lang">Chinese</p>
+    <p v-else>English</p>
+    <button v-on:click="lang = !lang"><p v-if="lang">"Switch" in Chinese</p><p v-else>Switch</p></button>
 </div>
 
 <script>
@@ -18,7 +21,8 @@
         el: '#app',
         data:{
             price: 0,
-            quantity:0
+            quantity:0,
+            lang: true
         },
         computed:{
             revenue:function () {
