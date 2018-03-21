@@ -100,22 +100,14 @@
                             this.cash=response.body['cash'];
                             this.loan=response.body['loan'];
                             this.decision_allowed=response.body['decision_allowed'];
-
+                            this.year=response.body['year'];
+                            this.news=response.body['news'];
                         }
-                    })
-            },
-
-            year_load:function () {
-                this.$http.get("php/get_year.php")
-                    .then(function (response) {
-                        this.year=response.body['year_id'];
-                        this.news=response.body['news'];
                     })
             }
         }
     });
     user_info.load();
-    user_info.year_load();
     $("#support_bar").load("modular/support_bar.html");
     $("#footer").load("modular/footer.html");
 </script>
