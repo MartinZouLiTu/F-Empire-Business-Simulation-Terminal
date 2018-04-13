@@ -21,7 +21,7 @@ else{
     $stmt->bind_param('iiii',$currentID,$currentID,$currentYear,$currentID);
     $stmt->execute();
     $result=$stmt->get_result();
-    $user_profile=$result->fetch_array();
+    $user_profile=$result->fetch_array(MYSQLI_ASSOC);
 //    $currentID=$_SESSION['login_user'];
 //    include('db.php');
 //    $currentYear = mysqli_fetch_array(mysqli_query($db,'select year_now() as year'))['year'];
