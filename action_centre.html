@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="foundation/css/foundation.css">
     <link rel="stylesheet" href="css/femp_theme.css">
     <link rel="stylesheet" href="css/w3.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
 
 </head>
 <body>
@@ -82,6 +82,19 @@
                         <div class="w3-container w3-card w3-light-gray w3-round">
                             <h5><b>{{product.name}}</b></h5>
                             <h6>Cost: ${{product.cost}}</h6>
+                            <div class="w3-half w3-left">
+                                <h6>Qty to Produce</h6>
+                                <input type="number" class="w3-input" placeholder="Produce quantity" v-model="product.qty">
+                            </div>
+                            <div class="w3-half w3-right">
+                                <h6>Sell price</h6>
+                                <!--Placeholder for radiobutton-->
+                                <input type="radio" :name="product.name" :value="product.low" v-model="product.sellprice"><label>Low</label>
+                                <input type="radio" :name="product.name" :value="product.middle" v-model="product.sellprice"><label>Mod</label>
+                                <input type="radio" :name="product.name" :value="product.high" v-model="product.sellprice"><label>High</label>
+                                <p>{{product.sellprice}}</p>
+                            </div>
+
                             <input type="number" class="w3-input" placeholder="Loan amount"><br><br>
                         </div>
                         <br><br>
