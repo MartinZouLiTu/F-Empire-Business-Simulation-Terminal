@@ -75,7 +75,21 @@
 
                 <div class="w3-container"><br></div>
 
-                <!--Placeholder for Product input decision-->
+                <div onclick="myFunction('Prod_var')" class="w3-button w3-camo-black w3-hover-black col-sm-12"><h5>Production</h5></div>
+
+                <div id="Prod_var" class="w3-container w3-hide"><br>
+                    <div v-for="product in product_array" class="w3-container">
+                        <div class="w3-container w3-card w3-light-gray w3-round">
+                            <h5><b>{{product.name}}</b></h5>
+                            <h6>Cost: ${{product.cost}}</h6>
+                            <input type="number" class="w3-input" placeholder="Loan amount"><br><br>
+                        </div>
+                        <br><br>
+                    </div>
+                </div>
+
+
+
 
 
 
