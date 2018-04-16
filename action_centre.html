@@ -75,25 +75,12 @@
 
                 <div class="w3-container"><br></div>
 
-                <div class="w3-bar w3-camo-black col-sm-12 w3-round-small">
-                    <button class="w3-bar-item w3-button tablink w3-black" onclick="openAction(event,'News')">News</button>
-                    <button class="w3-bar-item w3-button tablink" onclick="openAction(event,'Prod1')">Product 1</button>
-                    <button class="w3-bar-item w3-button tablink" onclick="openAction(event,'Prod2')">Product 2</button>
-                </div>
+                <!--Placeholder for Product input decision-->
 
-                <div id="News" class="w3-container w3-border w3-round-small decision col-sm-12" align="left">
-                    <p v-html="news" align="justify"></p>
-                </div>
 
-                <div id="Prod1" class="w3-container w3-border w3-round-small decision col-sm-12" style="display:none">
-                    <h2>Paris</h2>
-                    <p>Paris is the capital of France.</p>
-                </div>
 
-                <div id="Prod2" class="w3-container w3-border w3-round-small decision col-sm-12" style="display:none">
-                    <h2>Tokyo</h2>
-                    <p>Tokyo is the capital of Japan.</p>
-                </div>
+
+
             </div>
 
             <!--Support Bar-->
@@ -119,7 +106,8 @@
             loan:'',
             decision_allowed:0,
             year: null,
-            news: ''
+            news: '',
+            product_array:[]
         },
         methods:{
             load:function () {
@@ -136,10 +124,18 @@
                             this.news=response.body['news'];
                         }
                     })
+            },
+            load_product:function () {
+                this.$http.get("php/product_detail.php")
+                    .then(function (value) {
+                        console.log(value.body);
+                        this.product_array=value.body;
+                    })
             }
         }
     });
     user_info.load();
+    user_info.load_product();
     $("#support_bar").load("modular/support_bar.html");
     $("#footer").load("modular/footer.html");
 </script>
