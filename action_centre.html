@@ -47,7 +47,7 @@
             <div class="col-sm-7">
                 <div onclick="myFunction('Global_var')" class="w3-button w3-camo-black w3-hover-black col-sm-12"><h5>Global Decisions</h5></div>
 
-                <div id="Global_var" class="w3-container w3-hide"><br>
+                <div id="Global_var" class="w3-container w3-hide w3-card"><br>
                     <div class="w3-container w3-half">
                         <div class="w3-container w3-card w3-light-gray w3-round">
                             <h5><b>Loan</b></h5>
@@ -89,10 +89,10 @@
                             <div class="w3-half w3-right">
                                 <h6>Sell price</h6>
                                 <!--Placeholder for radiobutton-->
-                                <input type="radio" :name="product.name" :value="product.low" v-model="product.sellprice"><label>Low</label>
-                                <input type="radio" :name="product.name" :value="product.middle" v-model="product.sellprice"><label>Mod</label>
-                                <input type="radio" :name="product.name" :value="product.high" v-model="product.sellprice"><label>High</label>
-                                <p>{{product.sellprice}}</p>
+                                <input type="radio" :name="product.name" :value="0" v-model="product.sellcode"><label>Low</label>
+                                <input type="radio" :name="product.name" :value="1" v-model="product.sellcode"><label>Mod</label>
+                                <input type="radio" :name="product.name" :value="2" v-model="product.sellcode"><label>High</label>
+                                <h6>selected: ${{product.priceLevel[product.sellcode]}}</h6>
                             </div>
 
                             <input type="number" class="w3-input" placeholder="Loan amount"><br><br>
@@ -165,7 +165,10 @@
     user_info.load_product();
     $("#support_bar").load("modular/support_bar.html");
     $("#footer").load("modular/footer.html");
+
+
 </script>
+<!--Obsolete Tab Function
 <script>
     function openAction(evt, tabName) {
         var i, x, tablinks;
@@ -181,6 +184,8 @@
         evt.currentTarget.className += " w3-black";
     }
 </script>
+-->
+<!--Accordion Function-->
 <script>
     function myFunction(id) {
         var x = document.getElementById(id);
@@ -194,6 +199,7 @@
         }
     }
 </script>
+<!--OpenWinFunction-->
 <script>
 function openWin() {
 myWindow = window.open("news_portal.html", "_blank", "width=400, height=500");
