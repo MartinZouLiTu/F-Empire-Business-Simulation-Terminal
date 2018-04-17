@@ -25,7 +25,7 @@ for ($i=0;$i<5;$i++){
         foreach (explode(',',$result_array['priceLevel']) as $priceItem){
             array_push($priceArray,(int)$priceItem);
         }
-        $result_array['priceArray']=$priceArray;
+        $result_array['priceLevel']=$priceArray;
         array_push($output,$result_array);
     }
 }
