@@ -15,14 +15,15 @@
 <body>
 <div id="info">
     <!--Top Bar-->
-    <div class="w3-container w3-camo-black w3-center w3-bar w3-tiny">
+    <div class="w3-container w3-camo-black w3-center w3-bar w3-tiny w3-top">
         <div class="w3-bar-item"><h5>F-Empire</h5></div>
         <a href="dashboard.html" class="w3-text-white"><div class="w3-bar-item w3-button w3-hover-black"><h5>Home</h5></div></a>
         <a href="#"><div class="w3-bar-item w3-black w3-hover-black w3-text-white"><h5>Action Centre</h5></div></a>
 
         <a href="php/logout.php"><div class="w3-right w3-bar-item w3-hover-red w3-text-white"><h5>Log Out</h5></div></a>
         <div class="w3-bar-item w3-right"><h5><span class="glyphicon glyphicon-user"></span> {{username}}</h5></div>
-    </div><br>
+        <div class="w3-bar-item w3-right"><h5 class="w3-text-light-green" id="confirmation"></h5></div>
+    </div><br> <br><br><br>
 
     <!--Body Content-->
     <div class="container text-center">
@@ -77,7 +78,7 @@
 
                 <div onclick="myFunction('Prod_var')" class="w3-button w3-camo-black w3-hover-black col-sm-12"><h5>Production</h5></div>
 
-                <div id="Prod_var" class="w3-container w3-hide"><br>
+                <div id="Prod_var" class="w3-container w3-hide w3-card"><br>
                     <div v-for="product in product_array" class="w3-container">
                         <div class="w3-container w3-card w3-light-gray w3-round">
                             <h5><b>{{product.name}}</b></h5>
@@ -121,7 +122,7 @@
                             <h6><b>Total Cost: ${{(product.cost*product.qty)+product.adverts+product.packaging+(product.selService*3000000)}}</b></h6>
                             <div class="w3-bar">
                                 <button class="w3-button w3-half w3-hover-red">Reset</button>
-                                <button class="w3-half w3-button w3-hover-green">Save</button>
+                                <button class="w3-half w3-button w3-hover-green" onclick="myAlert()">Save</button>
                             </div>
                             <br>
                         </div>
@@ -131,7 +132,7 @@
 
 
 
-
+                <h2 id="confirmation"></h2>
 
 
 
@@ -232,6 +233,19 @@
 function openWin() {
 myWindow = window.open("news_portal.html", "_blank", "width=400, height=500");
 }
+</script>
+<!--Alert Function-->
+<script>
+    function myAlert() {
+        var txt;
+        var r = confirm("Are you sure you want to submit?");
+        if (r == true) {
+            txt = "Input submitted";
+        } else {
+            txt = "None";
+        }
+        document.getElementById("confirmation").innerHTML = txt;
+    }
 </script>
 </body>
 </html>
