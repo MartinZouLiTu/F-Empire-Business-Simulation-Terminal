@@ -16,6 +16,16 @@
     <button v-on:click="lang = !lang"><p v-if="lang">"Switch" in Chinese</p><p v-else>Switch</p></button>
 </div>
 
+<div id="fun">
+    <p v-for="n in 7-this.max">{{n-1+max}}</p>
+
+    <select v-model="maxtemp">
+        <option v-for="n in 7-this.max">{{n-1+max}}</option>
+    </select>
+    <span>Selected: {{ maxtemp }}</span>
+</div>
+
+
 <script>
     new Vue({
         el: '#app',
@@ -31,6 +41,14 @@
         }
     });
 
+        var something = new Vue({
+            el:'#fun',
+            data:{
+                max: 4,
+                maxtemp: 0
+            }
+
+        })
 </script>
 </body>
 </html>
