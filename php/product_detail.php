@@ -20,7 +20,13 @@ for ($i=0;$i<5;$i++){
         $stmt->bind_param('i',$pid);
         $stmt->execute();
         $result= $stmt->get_result();
-        array_push($output,$result->fetch_array(MYSQLI_ASSOC));
+        $result_array = $result->fetch_array(MYSQLI_ASSOC);
+        $priceArray=array();
+        foreach (explode(',',$result_array['priceLevel']) as $priceItem){
+            array_push($priceArray,(int)$priceItem);
+        }
+        $result_array['priceArray']=$priceArray;
+        array_push($output,$result_array);
     }
 }
 print(json_encode($output));
