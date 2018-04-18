@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>News Portal</title>
+    <script src="bower_components/vue/dist/vue.js"></script>
+    <script src="bower_components/vue-resource/dist/vue-resource.js"></script>
+    <link rel="stylesheet" href="foundation/css/foundation.css">
+    <link rel="stylesheet" href="css/femp_theme.css">
+    <link rel="stylesheet" href="css/w3.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+</head>
+<body>
+    <div id="info">
+        <div class="w3-container w3-camo-black w3-bar">
+            <h4 class="w3-center w3-bar-item">News | Year {{year}}</h4>
+        </div>
+        <div class="w3-container w3-white" align="justify">
+        <br>
+            <p v-html="news"></p>
+            <p v-html="news"></p>
+            <p v-html="news"></p>
+            <p v-html="news"></p>
+            <p v-html="news"></p>
+            <p v-html="news"></p>
+        </div>
+
+    </div>
+</body>
+
+<script>
+    var user_info = new Vue({
+        el:'#info',
+        data:{
+            username: '',
+            company_name: '',
+            cash:'',
+            loan:'',
+            decision_allowed:0,
+            year: null,
+            news: ''
+        },
+        methods:{
+            load:function () {
+                this.$http.get("php/session.php")
+                    .then(function (response) {
+                        if(response.body=='no_session'){window.location.href='login.html';}
+                        else{
+                            this.username=response.body['username'];
+                            this.company_name=response.body['company_name'];
+                            this.cash=response.body['cash'];
+                            this.loan=response.body['loan'];
+                            this.decision_allowed=response.body['decision_allowed'];
+                            this.year=response.body['year'];
+                            this.news=response.body['news'];
+                        }
+                    })
+            }
+        }
+    });
+    user_info.load();
+    $("#support_bar").load("modular/support_bar.html");
+    $("#footer").load("modular/footer.html");
+</script>
+</html>

@@ -38,21 +38,25 @@
                 <!--List-->
                 <div class="well">
                     <p class="w3-text-indigo"><b>Assets</b></p>
-                    <h5><b>Cash</b></h5>${{cash}}
-                    <h5><b>Loan</b></h5>${{loan}}
+                    <h5><b>Cash</b></h5>${{cash}}M
+                    <h5><b>Loan</b></h5>${{loan}}M
                 </div>
                 <div class="w3-button w3-indigo w3-bar w3-round w3-hover-blue" onclick="openWin()"><h5>News Portal</h5></div>
             </div>
 
             <!--Content-->
             <div class="col-sm-7">
+                <div class="w3-container w3-red">
+                    <h3>Don't Forget to open news each year</h3>
+                </div>
+
                 <div onclick="myFunction('Global_var')" class="w3-button w3-camo-black w3-hover-black col-sm-12"><h5>Global Decisions</h5></div>
 
                 <div id="Global_var" class="w3-container w3-hide w3-card"><br>
                     <div class="w3-container w3-half">
                         <div class="w3-container w3-card w3-light-gray w3-round">
                             <h5><b>Loan</b></h5>
-                            <h6>Unpaid debt: ${{loan}}</h6>
+                            <h6>Unpaid debt: ${{loan}}M</h6>
                             <input type="number" class="w3-input" placeholder="Loan amount"><br><br>
                         </div><br>
 
@@ -101,8 +105,8 @@
                             </div>
                             <div class="w3-container">
                             <div class="w3-third w3-left w3-container">
-                                <h6>Advertising Per Product</h6>
-                                <input type="number" class="w3-input" placeholder="Investment Amount" min="1000000" max="100000000" v-model.number="product.adverts">
+                                <h6>Advertising</h6>
+                                <input type="number" class="w3-input" placeholder="Investment Amount" min="1" max="100" v-model.number="product.adverts">
                                 <h6>Min:$1M Max:$100M</h6>
                             </div>
                             <div class="w3-third w3-center w3-container">
@@ -110,17 +114,17 @@
                                 <select v-model.number="product.selService" class="w3-border" style="width:70%; font-size: 70%;">
                                     <option v-for="n in 7-product.maxService">{{n-1+product.maxService}}</option>
                                 </select>
-                                <h6>Current Level: {{ product.maxService }} <br>Cost: ${{product.selService*3}}M</h6>
+                                <h6>Level: {{ product.selService }} <br>Cost: ${{product.selService*3}}M</h6>
                             </div>
                                 <div class="w3-third w3-right w3-container">
-                                    <h6>Packaging</h6>
+                                    <h6>Packaging Level</h6>
                                     <select v-model.number="product.packaging" class="w3-border" style="width:70%; font-size: 70%;">
-                                        <option v-for="m in 6">{{m-1}}</option>
+                                        <option v-for="m in 6">{{(m-1)}}</option>
                                     </select>
                                     <h6>Cost: ${{product.packaging}}M</h6>
                                 </div>
                             </div>
-                            <h6><b>Total Cost: ${{(product.cost*product.qty)+product.adverts+product.packaging+(product.selService*3)}}M</b></h6>
+                            <h6><b>Total Cost: ${{(product.cost*product.qty)+product.adverts+product.packaging+(product.selService*3)}}</b></h6>
                             <div class="w3-bar">
                                 <button class="w3-button w3-half w3-hover-red" v-on:click="reset_product(product)">Reset</button>
                                 <button class="w3-half w3-button w3-hover-green" v-on:click="submit_product(product)">Save</button>
@@ -150,7 +154,7 @@
 
 <script>
 
-    var actionCenter = new Vue({
+    var user_info = new Vue({
         el:'#info',
         data:{
             username: '',
@@ -160,7 +164,6 @@
             decision_allowed:0,
             year: null,
             news: '',
-            user_info:{},
             product_array:[]
 
 
@@ -171,7 +174,6 @@
                     .then(function (response) {
                         if(response.body=='no_session'){window.location.href='login.html';}
                         else{
-                            this.user_info=response.body;
                             this.username=response.body['username'];
                             this.company_name=response.body['company_name'];
                             this.cash=response.body['cash'];
@@ -199,21 +201,17 @@
             },
             init_product_array:function () {
                 this.product_array.forEach(function (value) {
-                    actionCenter.reset_product(value);
+                    user_info.reset_product(value);
                 });
                 console.log("initiation completed");
             },
             submit_product:function (submit_prod) {
                 console.log(submit_prod);
-                this.$http.post("php/add_action.php",submit_prod)
-                    .then(function (response) {
-                        console.log(response.body);
-                    })
             }
         }
     });
-    actionCenter.load();
-    actionCenter.load_product();
+    user_info.load();
+    user_info.load_product();
     $("#support_bar").load("modular/support_bar.html");
     $("#footer").load("modular/footer.html");
 
