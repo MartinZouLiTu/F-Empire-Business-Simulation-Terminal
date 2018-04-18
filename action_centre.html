@@ -80,7 +80,6 @@
 
                 <div id="Prod_var" class="w3-container w3-hide w3-card"><br>
                     <div v-for="product in product_array" class="w3-container">
-                        <form>
                         <div class="w3-container w3-card w3-light-gray w3-round">
                             <h5><b>{{product.name}}</b></h5>
                             <h6>Cost per unit: ${{product.cost}}</h6>
@@ -93,9 +92,10 @@
                             <div class="w3-half w3-right w3-container">
                                 <h6>Sell price</h6>
                                 <!--Placeholder for radiobutton-->
-                                <input type="radio" :name="product.name" :value="0" v-model="product.sellcode" checked="checked"><label>Low</label>
-                                <input type="radio" :name="product.name" :value="1" v-model="product.sellcode"><label>Mod</label>
-                                <input type="radio" :name="product.name" :value="2" v-model="product.sellcode"><label>High</label>
+                                <input type="radio" :name="product.name" :value="0" v-model.number="product.sellcode"><label>Low</label>
+                                <input type="radio" :name="product.name" :value="1" v-model.number="product.sellcode"><label>Mod</label>
+                                <input type="radio" :name="product.name" :value="2" v-model.number="product.sellcode"><label>High</label>
+
                                 <h6>selected: ${{product.priceLevel[product.sellcode]}}</h6>
                             </div>
                             </div>
@@ -123,11 +123,10 @@
                             <h6><b>Total Cost: ${{(product.cost*product.qty)+product.adverts+product.packaging+(product.selService*3000000)}}</b></h6>
                             <div class="w3-bar">
                                 <button class="w3-button w3-half w3-hover-red" v-on:click="reset_product(product)">Reset</button>
-                                <button class="w3-half w3-button w3-hover-green" onclick="myAlert()">Save</button>
+                                <button class="w3-half w3-button w3-hover-green" v-on:click="submit_product(product)">Save</button>
                             </div>
                             <br>
                         </div>
-                        </form>
                         <br><br>
                     </div>
                 </div>
@@ -198,6 +197,9 @@
                 this.product_array.forEach(function (value) {
                     user_info.reset_product(value);
                 })
+            },
+            submit_product:function (submit_prod) {
+                console.log(submit_prod);
             }
         }
     });
