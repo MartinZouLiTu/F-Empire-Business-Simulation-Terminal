@@ -15,14 +15,15 @@
 <body>
 <div id="info">
     <!--Top Bar-->
-    <div class="w3-container w3-camo-black w3-center w3-bar w3-tiny">
+    <div class="w3-container w3-camo-black w3-center w3-bar w3-tiny w3-top">
         <div class="w3-bar-item"><h5>F-Empire</h5></div>
         <a href="dashboard.html" class="w3-text-white"><div class="w3-bar-item w3-button w3-hover-black"><h5>Home</h5></div></a>
         <a href="#"><div class="w3-bar-item w3-black w3-hover-black w3-text-white"><h5>Action Centre</h5></div></a>
 
         <a href="php/logout.php"><div class="w3-right w3-bar-item w3-hover-red w3-text-white"><h5>Log Out</h5></div></a>
         <div class="w3-bar-item w3-right"><h5><span class="glyphicon glyphicon-user"></span> {{username}}</h5></div>
-    </div><br>
+        <div class="w3-bar-item w3-right"><h5 class="w3-text-light-green" id="confirmation"></h5></div>
+    </div><br> <br><br><br>
 
     <!--Body Content-->
     <div class="container text-center">
@@ -77,33 +78,58 @@
 
                 <div onclick="myFunction('Prod_var')" class="w3-button w3-camo-black w3-hover-black col-sm-12"><h5>Production</h5></div>
 
-                <div id="Prod_var" class="w3-container w3-hide"><br>
+                <div id="Prod_var" class="w3-container w3-hide w3-card"><br>
                     <div v-for="product in product_array" class="w3-container">
                         <div class="w3-container w3-card w3-light-gray w3-round">
                             <h5><b>{{product.name}}</b></h5>
-                            <h6>Cost: ${{product.cost}}</h6>
-                            <div class="w3-half w3-left">
+                            <h6>Cost per unit: ${{product.cost}}</h6>
+
+                            <div class="w3-container">
+                            <div class="w3-half w3-left w3-container">
                                 <h6>Qty to Produce</h6>
-                                <input type="number" class="w3-input" placeholder="Produce quantity" v-model="product.qty">
+                                <input type="number" class="w3-input" placeholder="Produce quantity" min="0" v-model.number="product.qty">
                             </div>
-                            <div class="w3-half w3-right">
+                            <div class="w3-half w3-right w3-container">
                                 <h6>Sell price</h6>
                                 <!--Placeholder for radiobutton-->
-                                <input type="radio" :name="product.name" :value="0" v-model="product.sellcode"><label>Low</label>
-                                <input type="radio" :name="product.name" :value="1" v-model="product.sellcode"><label>Mod</label>
-                                <input type="radio" :name="product.name" :value="2" v-model="product.sellcode"><label>High</label>
+                                <input type="radio" :name="product.name" :value="0" v-model.number="product.sellcode"><label>Low</label>
+                                <input type="radio" :name="product.name" :value="1" v-model.number="product.sellcode"><label>Mod</label>
+                                <input type="radio" :name="product.name" :value="2" v-model.number="product.sellcode"><label>High</label>
+
                                 <h6>selected: ${{product.priceLevel[product.sellcode]}}</h6>
                             </div>
-
-                            <input type="number" class="w3-input" placeholder="Loan amount"><br><br>
+                            </div>
+                            <div class="w3-container">
+                            <div class="w3-third w3-left w3-container">
+                                <h6>Advertising</h6>
+                                <input type="number" class="w3-input" placeholder="Investment Amount" min="1000000" max="100000000" v-model.number="product.adverts">
+                                <h6>Min:$1M Max:$100M</h6>
+                            </div>
+                            <div class="w3-third w3-center w3-container">
+                                <h6>Service Level</h6>
+                                <select v-model.number="product.selService" class="w3-border" style="width:70%; font-size: 70%;">
+                                    <option v-for="n in 7-product.maxService">{{n-1+product.maxService}}</option>
+                                </select>
+                                <h6>Level: {{ product.selService }} <br>Cost: ${{product.selService*3000000}}</h6>
+                            </div>
+                                <div class="w3-third w3-right w3-container">
+                                    <h6>Packaging</h6>
+                                    <select v-model.number="product.packaging" class="w3-border" style="width:70%; font-size: 70%;">
+                                        <option v-for="m in 6">{{(m-1)*1000000}}</option>
+                                    </select>
+                                    <h6>Cost: ${{product.packaging}}</h6>
+                                </div>
+                            </div>
+                            <h6><b>Total Cost: ${{(product.cost*product.qty)+product.adverts+product.packaging+(product.selService*3000000)}}</b></h6>
+                            <div class="w3-bar">
+                                <button class="w3-button w3-half w3-hover-red" v-on:click="reset_product(product)">Reset</button>
+                                <button class="w3-half w3-button w3-hover-green" v-on:click="submit_product(product)">Save</button>
+                            </div>
+                            <br>
                         </div>
                         <br><br>
                     </div>
                 </div>
-
-
-
-
 
 
 
@@ -129,12 +155,14 @@
         data:{
             username: '',
             company_name: '',
-            cash:'',
+            cash: 0,
             loan:'',
             decision_allowed:0,
             year: null,
             news: '',
             product_array:[]
+
+
         },
         methods:{
             load:function () {
@@ -158,11 +186,26 @@
                         console.log(value.body);
                         this.product_array=value.body;
                     })
+            },
+            reset_product:function (selProduct) {
+                selProduct.qty=0;
+                selProduct.adverts=1000000;
+                selProduct.packaging=0;
+                selProduct.selService=selProduct.maxService;
+            },
+            init_product_array:function () {
+                this.product_array.forEach(function (value) {
+                    user_info.reset_product(value);
+                })
+            },
+            submit_product:function (submit_prod) {
+                console.log(submit_prod);
             }
         }
     });
     user_info.load();
     user_info.load_product();
+    user_info.init_product_array();
     $("#support_bar").load("modular/support_bar.html");
     $("#footer").load("modular/footer.html");
 
@@ -204,6 +247,19 @@
 function openWin() {
 myWindow = window.open("news_portal.html", "_blank", "width=400, height=500");
 }
+</script>
+<!--Alert Function-->
+<script>
+    function myAlert() {
+        var txt;
+        var r = confirm("Are you sure you want to submit?");
+        if (r == true) {
+            txt = "Input submitted";
+        } else {
+            txt = "None";
+        }
+        document.getElementById("confirmation").innerHTML = txt;
+    }
 </script>
 </body>
 </html>
