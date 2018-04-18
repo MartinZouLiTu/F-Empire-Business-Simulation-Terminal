@@ -22,7 +22,7 @@
         <a href="action_centre.html"><div class="w3-bar-item w3-hover-black w3-button w3-text-white"><h5>Action Centre</h5></div></a>
 
         <a href="php/logout.php"><div class="w3-right w3-bar-item w3-hover-red w3-text-white"><h5>Log Out</h5></div></a>
-        <div class="w3-bar-item w3-right"><h5><span class="glyphicon glyphicon-user"></span> {{username}}</h5></div>
+        <div class="w3-bar-item w3-right"><h5><span class="glyphicon glyphicon-user"></span> {{user_info.username}}</h5></div>
     </div><br> <br><br><br>
 
     <!--Body Content-->
@@ -33,16 +33,16 @@
                 <div class="well">
                     <p class="w3-text-indigo"><b>My Profile</b></p>
                     <img src="img/user_ph.png" class="img-circle" height="65" width="65" alt="Avatar"><br><br>
-                    <h5>{{company_name}}</h5>
+                    <h5>{{user_info.company_name}}</h5>
                 </div>
                 <div class="well">
                     <p class="w3-text-indigo"><b>Assets</b></p>
-                    <h5><b>Cash</b></h5>${{cash}}
-                    <h5><b>Loan</b></h5>${{loan}}
+                    <h5><b>Cash</b></h5>${{user_info.cash}}
+                    <h5><b>Loan</b></h5>${{user_info.loan}}
                 </div>
                 <div class="well">
                     <p class="w3-text-indigo"><b>Company Value</b></p>
-                    <h4><b>${{cash-loan}}</b></h4>
+                    <h4><b>${{user_info.cash-user_info.loan}}</b></h4>
                 </div>
             </div>
 
@@ -60,7 +60,7 @@
              <div class="row">
                     <div class="col-sm-12">
                         <div class="well" align="justify">
-                            <p v-html="news"></p>
+                            <p v-html="user_info.news"></p>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
 <div id="footer"></div>
 <script>
 
-    var user_info = new Vue({
+    var dashboard = new Vue({
         el:'#info',
         data:{
             username: '',
@@ -89,7 +89,8 @@
             loan:'',
             decision_allowed:0,
             year: null,
-            news: ''
+            news: '',
+            user_info: {}
         },
         methods:{
             load:function () {
@@ -97,19 +98,13 @@
                     .then(function (response) {
                         if(response.body=='no_session'){window.location.href='login.html';}
                         else{
-                            this.username=response.body['username'];
-                            this.company_name=response.body['company_name'];
-                            this.cash=response.body['cash'];
-                            this.loan=response.body['loan'];
-                            this.decision_allowed=response.body['decision_allowed'];
-                            this.year=response.body['year'];
-                            this.news=response.body['news'];
+                            this.user_info=response.body;
                         }
                     })
             }
         }
     });
-    user_info.load();
+    dashboard.load();
     $("#support_bar").load("modular/support_bar.html");
     $("#footer").load("modular/footer.html");
 </script>

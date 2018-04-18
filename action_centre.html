@@ -21,7 +21,7 @@
         <a href="#"><div class="w3-bar-item w3-black w3-hover-black w3-text-white"><h5>Action Centre</h5></div></a>
 
         <a href="php/logout.php"><div class="w3-right w3-bar-item w3-hover-red w3-text-white"><h5>Log Out</h5></div></a>
-        <div class="w3-bar-item w3-right"><h5><span class="glyphicon glyphicon-user"></span> {{username}}</h5></div>
+        <div class="w3-bar-item w3-right"><h5><span class="glyphicon glyphicon-user"></span> {{user_info.username}}</h5></div>
         <div class="w3-bar-item w3-right"><h5 class="w3-text-light-green" id="confirmation"></h5></div>
     </div><br> <br><br><br>
 
@@ -33,13 +33,13 @@
                 <!--Year-->
                 <div class="well">
                     <p class="w3-text-indigo"><b>Current Year</b></p>
-                    <h1><b>{{year}}</b></h1>
+                    <h1><b>{{user_info.year}}</b></h1>
                 </div>
                 <!--List-->
                 <div class="well">
                     <p class="w3-text-indigo"><b>Assets</b></p>
-                    <h5><b>Cash</b></h5>${{cash}}
-                    <h5><b>Loan</b></h5>${{loan}}
+                    <h5><b>Cash</b></h5>${{user_info.cash}}
+                    <h5><b>Loan</b></h5>${{user_info.loan}}
                 </div>
                 <div class="w3-button w3-indigo w3-bar w3-round w3-hover-blue" onclick="openWin()"><h5>News Portal</h5></div>
             </div>
@@ -52,7 +52,7 @@
                     <div class="w3-container w3-half">
                         <div class="w3-container w3-card w3-light-gray w3-round">
                             <h5><b>Loan</b></h5>
-                            <h6>Unpaid debt: ${{loan}}</h6>
+                            <h6>Unpaid debt: ${{user_info.loan}}</h6>
                             <input type="number" class="w3-input" placeholder="Loan amount"><br><br>
                         </div><br>
 
@@ -153,13 +153,6 @@
     var actionCenter = new Vue({
         el:'#info',
         data:{
-            username: '',
-            company_name: '',
-            cash: 0,
-            loan:'',
-            decision_allowed:0,
-            year: null,
-            news: '',
             user_info:{},
             product_array:[]
 
@@ -172,13 +165,7 @@
                         if(response.body=='no_session'){window.location.href='login.html';}
                         else{
                             this.user_info=response.body;
-                            this.username=response.body['username'];
-                            this.company_name=response.body['company_name'];
-                            this.cash=response.body['cash'];
-                            this.loan=response.body['loan'];
-                            this.decision_allowed=response.body['decision_allowed'];
-                            this.year=response.body['year'];
-                            this.news=response.body['news'];
+                            
                         }
                     })
             },
