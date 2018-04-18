@@ -185,18 +185,20 @@
                     .then(function (value) {
                         console.log(value.body);
                         this.product_array=value.body;
+                        this.init_product_array();
                     })
             },
             reset_product:function (selProduct) {
-                selProduct.qty=0;
-                selProduct.adverts=1000000;
-                selProduct.packaging=0;
-                selProduct.selService=selProduct.maxService;
+                this.$set(selProduct,'qty',0);
+                this.$set(selProduct,'adverts',1000000);
+                this.$set(selProduct,'packaging',0);
+                this.$set(selProduct,'selService',selProduct.maxService);
             },
             init_product_array:function () {
                 this.product_array.forEach(function (value) {
                     user_info.reset_product(value);
-                })
+                });
+                console.log("initiation completed");
             },
             submit_product:function (submit_prod) {
                 console.log(submit_prod);
@@ -205,7 +207,6 @@
     });
     user_info.load();
     user_info.load_product();
-    user_info.init_product_array();
     $("#support_bar").load("modular/support_bar.html");
     $("#footer").load("modular/footer.html");
 

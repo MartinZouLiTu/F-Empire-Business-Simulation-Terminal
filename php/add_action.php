@@ -10,7 +10,7 @@ else{
     $input = json_decode(file_get_contents("php://input"),true);
     $insert_sql='insert into action (uid, yid, pid, price, add_ads, service_level, pkg, qty) VALUES (?,year_now(),?,?,?,?,?,?)';
     $insert_stmt=$db->prepare($insert_sql);
-    $insert_stmt->bind_param('iiiiiiii',$_SESSION['login_user'],$input['pid'],$input['sellcode'],$input['adverts'],$input['selService'],$input['packaging'],$input['qty']);
+    $insert_stmt->bind_param('iiiiiii',$_SESSION['login_user'],$input['pid'],$input['sellcode'],$input['adverts'],$input['selService'],$input['packaging'],$input['qty']);
     if($insert_stmt->execute()){
         print true;
     }
