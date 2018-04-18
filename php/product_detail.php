@@ -9,20 +9,20 @@ if(!isset($_SESSION['login_user'])){
 else {
     $user= $_SESSION['login_user'];
     $output = array();
-    $data_sql_prep = 'SELECT *, max_sl(?,?) as maxService FROM product WHERE pid=?';
-    $demand_sql_prep = 'SELECT demand FROM year_table WHERE year_id IN (SELECT current_year FROM su_table WHERE user_id=99)';
+    $data_sql_prep = 'SELECT *, max_sl(?,?) as maxService, check_save(?,?) as isSave FROM product WHERE pid=?';
+    $demand_sql_prep = 'SELECT demand FROM year_table WHERE year_id = year_now()';
     $demand_stmt = $db->prepare($demand_sql_prep);
     $demand_stmt->execute();
     $demand_stmt->bind_result($demand);
     $demand_stmt->fetch();
     $d = explode(',', $demand);
     $demand_stmt->close();
-    for ($i = 0; $i < 5; $i++) {
+    for ($i = 0; $i < count($d); $i++) {
         $pid = $i + 1;
         $item = (int)$d[$i];
         if ($item != 0) {
             $stmt = $db->prepare($data_sql_prep);
-            $stmt->bind_param('iii', $user,$pid,$pid);
+            $stmt->bind_param('iiiii', $user,$pid,$user,$pid,$pid);
             $stmt->execute();
             $result = $stmt->get_result();
             $result_array = $result->fetch_array(MYSQLI_ASSOC);
@@ -31,6 +31,8 @@ else {
                 array_push($priceArray, (int)$priceItem);
             }
             $result_array['priceLevel'] = $priceArray;
+            $stmt->close();
+
             array_push($output, $result_array);
         }
     }
