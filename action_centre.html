@@ -38,8 +38,8 @@
                 <!--List-->
                 <div class="well">
                     <p class="w3-text-indigo"><b>Assets</b></p>
-                    <h5><b>Cash</b></h5>${{user_info.cash}}
-                    <h5><b>Loan</b></h5>${{user_info.loan}}
+                    <h5><b>Cash</b></h5>${{user_info.cash}} M
+                    <h5><b>Loan</b></h5>${{user_info.loan}} M
                 </div>
                 <div class="w3-button w3-indigo w3-bar w3-round w3-hover-blue" onclick="openWin()"><h5>News Portal</h5></div>
             </div>
@@ -52,75 +52,78 @@
                     <div class="w3-container w3-half">
                         <div class="w3-container w3-card w3-light-gray w3-round">
                             <h5><b>Loan</b></h5>
-                            <h6>Unpaid debt: ${{user_info.loan}}</h6>
-                            <input type="number" class="w3-input" placeholder="Loan amount"><br><br>
+                            <h6>Unpaid debt: ${{user_info.loan}} M</h6>
+                            <input type="number" class="w3-input" placeholder="Loan amount" v-model.number="loanAdd"><br><br>
                         </div><br>
 
                     </div>
                     <div class="w3-container w3-half">
                         <div class="w3-container w3-card w3-light-gray w3-round">
                             <h5><b>Factories</b></h5>
-                            <h6>Owned: ## Rented: ##</h6>
+                            <h6>Owned: {{user_info.perm_fac}} Rented: {{user_info.total_fac-user_info.perm_fac }}</h6>
                             <div class="w3-container w3-half" style="height: 75px;">
                                 <label>Buy</label>
-                            <input type="number" class="w3-input" placeholder="Buy">
+                            <input type="number" class="w3-input" placeholder="Buy" v-model.number="factory_buy">
                             </div>
                             <div class="w3-container w3-half" style="height: 75px;">
                                 <label>Rent</label>
-                                <input type="number" class="w3-input" placeholder="Rent">
+                                <input type="number" class="w3-input" placeholder="Rent" v-model.number="factory_rent">
                             </div>
                         </div>
                     </div>
+                    <button class="w3-half w3-button w3-hover-green" v-on:click="submit_product(product)">Save</button>
+
                 </div>
 
 
                 <div class="w3-container"><br></div>
 
                 <div onclick="myFunction('Prod_var')" class="w3-button w3-camo-black w3-hover-black col-sm-12"><h5>Production</h5></div>
-
                 <div id="Prod_var" class="w3-container w3-hide w3-card"><br>
                     <div v-for="product in product_array" class="w3-container">
                         <div class="w3-container w3-card w3-light-gray w3-round">
                             <h5><b>{{product.name}}</b></h5>
-                            <h6>Cost per unit: ${{product.cost}}M</h6>
+                            <h6>Cost per unit: ${{product.cost}} M</h6>
 
                             <div class="w3-container">
                             <div class="w3-half w3-left w3-container">
                                 <h6>Qty to Produce</h6>
-                                <input type="number" class="w3-input" placeholder="Produce quantity" min="0" v-model.number="product.qty">
+                                <input type="number" class="w3-input"
+                                       placeholder="Produce quantity" min="0"
+                                       v-model.number="product.qty" v-bind:disabled="product.isSave===1">
                             </div>
                             <div class="w3-half w3-right w3-container">
                                 <h6>Sell price</h6>
                                 <!--Placeholder for radiobutton-->
-                                <input type="radio" :name="product.name" :value="0" v-model.number="product.sellcode"><label>Low</label>
-                                <input type="radio" :name="product.name" :value="1" v-model.number="product.sellcode"><label>Mod</label>
-                                <input type="radio" :name="product.name" :value="2" v-model.number="product.sellcode"><label>High</label>
+                                <input type="radio" :name="product.name" :value="0" v-model.number="product.sellcode" v-bind:disabled="product.isSave===1"><label>Low</label>
+                                <input type="radio" :name="product.name" :value="1" v-model.number="product.sellcode" v-bind:disabled="product.isSave===1"><label>Mod</label>
+                                <input type="radio" :name="product.name" :value="2" v-model.number="product.sellcode" v-bind:disabled="product.isSave===1"><label>High</label>
 
-                                <h6>selected: ${{product.priceLevel[product.sellcode]}}M</h6>
+                                <h6>selected: ${{product.priceLevel[product.sellcode]}} M</h6>
                             </div>
                             </div>
                             <div class="w3-container">
                             <div class="w3-third w3-left w3-container">
                                 <h6>Advertising Per Product</h6>
-                                <input type="number" class="w3-input" placeholder="Investment Amount" min="1000000" max="100000000" v-model.number="product.adverts">
+                                <input type="number" class="w3-input" placeholder="Investment Amount" min="1" max="100" v-model.number="product.adverts" v-bind:disabled="product.isSave===1">
                                 <h6>Min:$1M Max:$100M</h6>
                             </div>
                             <div class="w3-third w3-center w3-container">
                                 <h6>Service Level</h6>
-                                <select v-model.number="product.selService" class="w3-border" style="width:70%; font-size: 70%;">
+                                <select v-model.number="product.selService" class="w3-border" style="width:70%; font-size: 70%;" v-bind:disabled="product.isSave===1">
                                     <option v-for="n in 7-product.maxService">{{n-1+product.maxService}}</option>
                                 </select>
-                                <h6>Current Level: {{ product.maxService }} <br>Cost: ${{product.selService*3}}M</h6>
+                                <h6>Current Level: {{ product.maxService }} <br>Cost: ${{product.selService*3}} M</h6>
                             </div>
                                 <div class="w3-third w3-right w3-container">
                                     <h6>Packaging</h6>
-                                    <select v-model.number="product.packaging" class="w3-border" style="width:70%; font-size: 70%;">
+                                    <select v-model.number="product.packaging" class="w3-border" style="width:70%; font-size: 70%;" v-bind:disabled="product.isSave===1">
                                         <option v-for="m in 6">{{m-1}}</option>
                                     </select>
-                                    <h6>Cost: ${{product.packaging}}M</h6>
+                                    <h6>Cost: ${{product.packaging}} M</h6>
                                 </div>
                             </div>
-                            <h6><b>Total Cost: ${{(product.cost*product.qty)+product.adverts+product.packaging+(product.selService*3)}}M</b></h6>
+                            <h6><b>Total Cost: ${{(product.cost*product.qty)+product.adverts+product.packaging+(product.selService*3)}} M</b></h6>
                             <div class="w3-bar">
                                 <button class="w3-button w3-half w3-hover-red" v-on:click="reset_product(product)">Reset</button>
                                 <button class="w3-half w3-button w3-hover-green" v-on:click="submit_product(product)">Save</button>
