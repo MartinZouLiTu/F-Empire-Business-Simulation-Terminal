@@ -25,7 +25,7 @@ else {
 
     $temp_sql = 'insert into factory values (?,year_now(),?)';
     $temp_stmt=$db->prepare($temp_sql);
-    $temp_stmt->bind_param('iii',$_SESSION['login_user'],$input['factory_buy']);
+    $temp_stmt->bind_param('iii',$_SESSION['login_user'],$input['factory_rent']);
     if($temp_stmt->execute()){$output['temp']=1;}
     else{$output['temp']=0;}
     $temp_stmt->close();
