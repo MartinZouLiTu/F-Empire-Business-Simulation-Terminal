@@ -199,6 +199,13 @@
                     .then(function (response) {
                         console.log(response.body);
                     })
+            },
+            submit_global_var:function () {
+                console.log(this.user_info);
+                this.$http.post("php/alter_global_var.php",this.user_info)
+                    .then(function (response) {
+                        console.log(response.body);
+                    })
             }
         }
     });
