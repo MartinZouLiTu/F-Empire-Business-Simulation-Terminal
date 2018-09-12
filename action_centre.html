@@ -125,8 +125,8 @@
                             </div>
                             <h6><b>Total Cost: ${{(product.cost*product.qty)+product.adverts+product.packaging+(product.selService*3)}} M</b></h6>
                             <div class="w3-bar">
-                                <button class="w3-button w3-half w3-hover-red" v-on:click="reset_product(product)" v-bind:disabled="product.isSave===1">Reset</button>
-                                <button class="w3-half w3-button w3-hover-green" v-on:click="submit_product(product)" v-bind:disabled="product.isSave===1">Save</button>
+                                <button class="w3-button w3-half w3-hover-red" v-on:click="reset_product(product)" v-show="product.isSave===0">Reset</button>
+                                <button class="w3-half w3-button w3-hover-green" v-on:click="submit_product(product)"  v-show="product.isSave===0">Save</button>
                             </div>
                             <br>
                         </div>
@@ -194,18 +194,33 @@
                 console.log("initiation completed");
             },
             submit_product:function (submit_prod) {
-                console.log(submit_prod);
-                this.$http.post("php/add_action.php",submit_prod)
-                    .then(function (response) {
-                        console.log(response.body);
-                    })
+                if(confirm("Are you sure?")) {
+                    console.log(submit_prod);
+                    this.$http.post("php/add_action.php", submit_prod)
+                        .then(function (response) {
+                            console.log(response.body);
+                        });
+                    window.location.reload();
+                }
             },
             submit_global_var:function () {
-                console.log(this.user_info);
-                this.$http.post("php/alter_global_var.php",this.user_info)
-                    .then(function (response) {
-                        console.log(response.body);
-                    })
+                if(this.user_info.loanAdd < 0) {
+                    alert("Invalid value on Loan");
+                }
+                else if(this.user_info.factory_buy < 0){
+                    alert("Invalid value on Buy Factory");
+                }
+                else if(this.user_info.factory_rent < 0){
+                    alert("Invalid value on Rent Factory");
+                }
+                else {
+                    console.log(this.user_info);
+                    this.$http.post("php/alter_global_var.php", this.user_info)
+                        .then(function (response) {
+                            console.log(response.body);
+                        });
+                    window.location.reload();
+                }
             }
         }
     });
