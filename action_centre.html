@@ -125,8 +125,8 @@
                             </div>
                             <h6><b>Total Cost: ${{(product.cost*product.qty)+product.adverts+product.packaging+(product.selService*3)}} M</b></h6>
                             <div class="w3-bar">
-                                <button class="w3-button w3-half w3-hover-red" v-on:click="reset_product(product)">Reset</button>
-                                <button class="w3-half w3-button w3-hover-green" v-on:click="submit_product(product)">Save</button>
+                                <button class="w3-button w3-half w3-hover-red" v-on:click="reset_product(product)" v-bind:disabled="product.isSave===1">Reset</button>
+                                <button class="w3-half w3-button w3-hover-green" v-on:click="submit_product(product)" v-bind:disabled="product.isSave===1">Save</button>
                             </div>
                             <br>
                         </div>
