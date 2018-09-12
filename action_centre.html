@@ -53,25 +53,25 @@
                         <div class="w3-container w3-card w3-light-gray w3-round">
                             <h5><b>Loan</b></h5>
                             <h6>Unpaid debt: ${{user_info.loan}} M</h6>
-                            <input type="number" class="w3-input" placeholder="Loan amount" v-model.number="user_info.loanAdd"><br><br>
+                            <input type="number" class="w3-input" placeholder="Loan amount" :max="user_info.cash" min="0" v-model.number="user_info.loanAdd"><br><br>
                         </div><br>
 
                     </div>
                     <div class="w3-container w3-half">
                         <div class="w3-container w3-card w3-light-gray w3-round">
                             <h5><b>Factories</b></h5>
-                            <h6>Owned: {{user_info.perm_fac}} Rented: {{user_info.total_fac-user_info.perm_fac }}</h6>
+                            <h6>Owned: {{user_info.total_fac}} Rented: {{user_info.total_fac-user_info.perm_fac }}</h6>
                             <div class="w3-container w3-half" style="height: 75px;">
                                 <label>Buy</label>
-                            <input type="number" class="w3-input" placeholder="Buy" v-model.number="user_info.factory_buy">
+                            <input type="number" class="w3-input" placeholder="Buy" min="0" v-model.number="user_info.factory_buy">
                             </div>
                             <div class="w3-container w3-half" style="height: 75px;">
                                 <label>Rent</label>
-                                <input type="number" class="w3-input" placeholder="Rent" v-model.number="user_info.factory_rent">
+                                <input type="number" class="w3-input" placeholder="Rent" min="0" v-model.number="user_info.factory_rent">
                             </div>
                         </div>
                     </div>
-                    <button class="w3-half w3-button w3-hover-green" v-on:click="submit_product(product)">Save</button>
+                    <button class="w3-half w3-button w3-hover-green" v-on:click="submit_global_var()">Save</button>
 
                 </div>
 
