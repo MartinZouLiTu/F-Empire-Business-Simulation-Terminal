@@ -16,6 +16,11 @@ else{
     $check_stmt->fetch();
     if($isSave==0){
         $check_stmt->close();
+        $deduct_sql = 'update company_info set cash=cash-? where user_id=?';
+        $deduct_stmt = $db -> prepare($deduct_sql);
+        $deduct_stmt ->bind_param('ii',$input['totalCost'],$_SESSION['login_user']);
+        $deduct_stmt ->execute();
+        $deduct_stmt ->close();
         $insert_sql='insert into action (uid, yid, pid, price, add_ads, service_level, pkg, qty) VALUES (?,year_now(),?,?,?,?,?,?)';
         $insert_stmt=$db->prepare($insert_sql);
         $insert_stmt->bind_param('iiiiiii',$_SESSION['login_user'],$input['pid'],$input['sellcode'],$input['adverts'],$input['selService'],$input['packaging'],$input['qty']);
