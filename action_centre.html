@@ -60,7 +60,7 @@
                     <div class="w3-container w3-half">
                         <div class="w3-container w3-card w3-light-gray w3-round">
                             <h5><b>Factories</b></h5>
-                            <h6>Owned: {{user_info.total_fac}} Rented: {{user_info.total_fac-user_info.perm_fac }}</h6>
+                            <h6>Total: {{user_info.total_fac}} Owned: {{user_info.perm_fac}} Rented: {{user_info.total_fac-user_info.perm_fac }}</h6>
                             <div class="w3-container w3-half" style="height: 75px;">
                                 <label>Buy</label>
                             <input type="number" class="w3-input" placeholder="Buy" min="0" v-model.number="user_info.factory_buy">
@@ -172,7 +172,9 @@
                         if(response.body=='no_session'){window.location.href='login.html';}
                         else{
                             this.user_info=response.body;
-                            
+                            this.$set(this.user_info,'factory_buy',0);
+                            this.$set(this.user_info,'factory_rent',0);
+                            this.$set(this.user_info,'loan_add',0);
                         }
                     })
             },
@@ -216,22 +218,25 @@
                 }
             },
             submit_global_var:function () {
-                if(this.user_info.loanAdd < 0) {
-                    alert("Invalid value on Loan");
-                }
-                else if(this.user_info.factory_buy < 0){
-                    alert("Invalid value on Buy Factory");
-                }
-                else if(this.user_info.factory_rent < 0){
-                    alert("Invalid value on Rent Factory");
-                }
-                else {
-                    console.log(this.user_info);
-                    this.$http.post("php/alter_global_var.php", this.user_info)
-                        .then(function (response) {
-                            console.log(response.body);
-                        });
-                    window.location.reload();
+                if(confirm("Are you sure?")){
+                    var total_cost_global = submit_global_var.loan_add+(submit_global_var.factory_buy*5)+(submit_global_var.factory_rent*3);
+                    if(this.user_info.loanAdd < 0) {
+                        alert("Invalid value on Loan");
+                    }
+                    else if(this.user_info.factory_buy < 0){
+                        alert("Invalid value on Buy Factory");
+                    }
+                    else if(this.user_info.factory_rent < 0){
+                        alert("Invalid value on Rent Factory");
+                    }
+                    else {
+                        console.log(this.user_info);
+                        this.$http.post("php/alter_global_var.php", this.user_info)
+                            .then(function (response) {
+                                console.log(response.body);
+                            });
+                        window.location.reload();
+                    }
                 }
             }
         }
