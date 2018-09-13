@@ -195,12 +195,19 @@
             },
             submit_product:function (submit_prod) {
                 if(confirm("Are you sure?")) {
-                    console.log(submit_prod);
-                    this.$http.post("php/add_action.php", submit_prod)
-                        .then(function (response) {
-                            console.log(response.body);
-                        });
-                    window.location.reload();
+                    var total_cost = (submit_prod.cost*submit_prod.qty)+submit_prod.adverts+submit_prod.packaging+(submit_prod.selService*3);
+                    if(this.user_info.cash >= total_cost) {
+                        console.log(submit_prod);
+                        this.$http.post("php/add_action.php", submit_prod)
+                            .then(function (response) {
+                                console.log(response.body);
+                            });
+                        alert("Submit success!");
+                        window.location.reload();
+                    }
+                    else {
+                        alert("You don't have enough funds");
+                    }
                 }
             },
             submit_global_var:function () {
