@@ -174,7 +174,7 @@
                             this.user_info=response.body;
                             this.$set(this.user_info,'factory_buy',0);
                             this.$set(this.user_info,'factory_rent',0);
-                            this.$set(this.user_info,'loan_add',0);
+                            this.$set(this.user_info,'loanAdd',0);
                         }
                     })
             },
@@ -219,7 +219,6 @@
             },
             submit_global_var:function () {
                 if(confirm("Are you sure?")){
-                    var total_cost_global = submit_global_var.loan_add+(submit_global_var.factory_buy*5)+(submit_global_var.factory_rent*3);
                     if(this.user_info.loanAdd < 0) {
                         alert("Invalid value on Loan");
                     }
@@ -231,6 +230,7 @@
                     }
                     else {
                         console.log(this.user_info);
+                        this.set(submit_gvar,'globalCost',this.user_info.loanAdd+(this.user_info.factory_buy*5)+(this.user_info.factory_rent*3));
                         this.$http.post("php/alter_global_var.php", this.user_info)
                             .then(function (response) {
                                 console.log(response.body);
