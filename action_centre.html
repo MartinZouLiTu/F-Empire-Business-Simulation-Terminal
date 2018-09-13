@@ -54,7 +54,7 @@
                             <h5><b>Loan</b></h5>
                             <h6>Unpaid debt: ${{user_info.loan}} M</h6>
                             <input type="number" class="w3-input" placeholder="Loan amount" :max="user_info.cash" min="0" v-model.number="user_info.loanAdd"><br><br>
-                        </div><br>
+                        </div><br><br>
 
                     </div>
                     <div class="w3-container w3-half">
@@ -69,9 +69,13 @@
                                 <label>Rent</label>
                                 <input type="number" class="w3-input" placeholder="Rent" min="0" v-model.number="user_info.factory_rent">
                             </div>
+                            <h6><b>Total Cost: </b>${{user_info.factory_buy*5+user_info.factory_rent*3}} </h6>
                         </div>
                     </div>
-                    <button class="w3-half w3-button w3-hover-green" v-on:click="submit_global_var()">Save</button>
+                    <div class="w3-container">
+                        <button class="w3-half w3-button w3-hover-green w3-right" v-on:click="submit_global_var()">Save</button>
+                    </div>
+
 
                 </div>
 
