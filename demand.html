@@ -53,7 +53,7 @@
                     <h4 v-if="user_info.demand_pid === product.pid">{{product.name}}</h4>
                 </div>
                 <div v-for="demand_item in demand_list">
-                    <div v-if="demand_item.pid === 1">
+                    <div v-if="demand_item.pid === user_info.demand_pid">
                         <input type="radio" id="demand_item.id" :name="1" :value="demand_item" v-model="selection" v-bind:disabled="demand_item.isSelected===1">
                         <label for="demand_item.id">{{demand_item.qty}}</label><br>
                     </div>
@@ -89,6 +89,7 @@
                 this.$http.get("php/session.php")
                     .then(function (response) {
                         if(response.body=='no_session'){window.location.href='login.html';}
+                        else if(response.body.decision_allowed===0){window.location.href='error.html';}
                         else{
                             this.user_info=response.body;
                         }
