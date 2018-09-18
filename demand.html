@@ -20,7 +20,7 @@
         <div class="w3-bar-item"><h5>F-Empire</h5></div>
         <a href="dashboard.html"><div class="w3-bar-item w3-button w3-hover-black w3-text-white"><h5>Home</h5></div></a>
         <a href="action_centre.html"><div class="w3-bar-item w3-hover-black w3-button w3-text-white"><h5>Action Centre</h5></div></a>
-        <div class="w3-bar-item w3-black w3-button w3-text-white"><h5>Demand</h5></div>
+        <a href="#"><div class="w3-bar-item w3-black w3-button w3-text-white"><h5>Demand</h5></div></a>
 
         <a href="php/logout.php"><div class="w3-right w3-bar-item w3-hover-red w3-text-white"><h5>Log Out</h5></div></a>
         <div class="w3-bar-item w3-right"><h5><span class="glyphicon glyphicon-user"></span> {{user_info.username}}</h5></div>
@@ -49,22 +49,14 @@
 
             <!--Content-->
             <div class="col-sm-7">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="panel panel-default text-left">
-                            <div class="panel-body">
-                                <h4>Statistics</h4>
-                            </div>
-                        </div>
+                <div v-for="demand_item in demand_list">
+
+                    <div v-if="demand_item.pid === 1">
+                        <input type="radio" id="demand_item.id" :value="demand_item" v-model="selection" v-bind:disabled="demand_item.isSelected===1">
+                        <label for="demand_item.id">{{demand_item.qty}}</label><br>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="well" align="justify">
-                            <p v-html="user_info.news"></p>
-                        </div>
-                    </div>
-                </div>
+                {{selection}}
             </div>
 
             <!--Support Bar-->
@@ -86,7 +78,9 @@
         data:{
 
             user_info: {},
-            demand_list: []
+            demand_list: [],
+            selection: {},
+            product_array: []
         },
         methods:{
             load:function () {
@@ -104,7 +98,14 @@
                     .then(function (response) {
                         this.demand_list=response.body;
                     })
-            }
+            },
+            load_product:function () {
+                this.$http.get("php/product_detail.php")
+                    .then(function (value) {
+                        console.log(value.body);
+                        this.product_array=value.body;
+                    })
+            },
         }
     });
     demand.load();
