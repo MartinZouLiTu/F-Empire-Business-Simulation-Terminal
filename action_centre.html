@@ -232,7 +232,7 @@
                     }
                     else {
                         console.log(this.user_info);
-                        this.set(submit_gvar,'globalCost',this.user_info.loanAdd+(this.user_info.factory_buy*5)+(this.user_info.factory_rent*3));
+                        this.set(this.user_info,'globalCost',this.user_info.loanAdd+(this.user_info.factory_buy*10)+(this.user_info.factory_rent*3));
                         this.$http.post("php/alter_global_var.php", this.user_info)
                             .then(function (response) {
                                 console.log(response.body);

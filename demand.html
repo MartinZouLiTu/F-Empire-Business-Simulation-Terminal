@@ -49,14 +49,16 @@
 
             <!--Content-->
             <div class="col-sm-7">
+                <div v-for="product in product_array">
+                    <h4 v-if="user_info.demand_pid === product.pid">{{product.name}}</h4>
+                </div>
                 <div v-for="demand_item in demand_list">
-
                     <div v-if="demand_item.pid === 1">
-                        <input type="radio" id="demand_item.id" :value="demand_item" v-model="selection" v-bind:disabled="demand_item.isSelected===1">
+                        <input type="radio" id="demand_item.id" :name="1" :value="demand_item" v-model="selection" v-bind:disabled="demand_item.isSelected===1">
                         <label for="demand_item.id">{{demand_item.qty}}</label><br>
                     </div>
                 </div>
-                {{selection}}
+
             </div>
 
             <!--Support Bar-->
@@ -110,6 +112,7 @@
     });
     demand.load();
     demand.fetch_demand();
+    demand.load_product();
     $("#support_bar").load("modular/support_bar.html");
     $("#footer").load("modular/footer.html");
 </script>
