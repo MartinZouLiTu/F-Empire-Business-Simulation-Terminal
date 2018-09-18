@@ -18,10 +18,9 @@ else {
     $occu_stmt->close();
 
 
-
-    $insert_sql='insert into action (uid, yid, pid, price, add_ads, service_level, pkg, qty) VALUES (?,year_now(),?,-1,0,0,0,?)';
+    $insert_sql='insert into action (uid, yid, pid, price, add_ads, service_level, pkg, qty) VALUES (?,year_now(),?,?,0,0,0,?)';
     $insert_stmt=$db->prepare($insert_sql);
-    $insert_stmt->bind_param('iii',$_SESSION['login_user'],$input['pid'],-$input['qty']);
+    $insert_stmt->bind_param('iii',$_SESSION['login_user'],$input['pid'],-$input['id'],-$input['qty']);
     $insert_stmt->execute();
     $insert_stmt->close();
 
