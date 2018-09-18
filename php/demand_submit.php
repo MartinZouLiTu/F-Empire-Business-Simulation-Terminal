@@ -26,7 +26,7 @@ else {
     $insert_stmt->close();
     $output[1]=1;
 
-    $alter_sql='update company_info set cash=cash+current_price(?,?)*? where user_id=?';
+    $alter_sql='update company_info set cash=cash+current_price(?,?)*?, decision_allowed=0 where user_id=? ';
     $alter_stmt=$db->prepare($alter_sql);
     $alter_stmt->bind_param('iiii',$_SESSION['login_user'],$input['pid'],$input['qty'],$_SESSION['login_user']);
     $alter_stmt->execute();
