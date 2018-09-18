@@ -2,7 +2,7 @@
 include('db.php');
 $pid=$_GET['pid'];
 $count_sql = 'select count(*), sum(qty) from action where yid=year_now() and pid=?';
-$insert_sql = 'insert into demand values (year_now(),?,?,0)';
+$insert_sql = 'insert into demand(yid, pid, qty, occu) values (year_now(),?,?,0)';
 $count_stmt = $db -> prepare($count_sql);
 $count_stmt->bind_param('i',$pid);
 $count_stmt->bind_result($count,$sum);
