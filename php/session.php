@@ -16,7 +16,7 @@ else{
     $currentYear=$year;
     $year_stmt->close();
 
-    $query = 'select username, company_name, cash, loan, decision_allowed, total_fac(?,0) as perm_fac,total_fac(?,?) as total_fac, year_now() as year, news_now() as news from company_info where user_id=?';
+    $query = 'select username, company_name, cash, loan, decision_allowed, total_fac(?,0) as perm_fac,total_fac(?,?) as total_fac, year_now() as year, demand_pid_now() as demand_pid, news_now() as news from company_info where user_id=?';
     $stmt=$db->prepare($query);
     $stmt->bind_param('iiii',$currentID,$currentID,$currentYear,$currentID);
     $stmt->execute();
