@@ -81,11 +81,12 @@
 <div id="footer"></div>
 <script>
 
-    var dashboard = new Vue({
+    var demand = new Vue({
         el:'#info',
         data:{
 
-            user_info: {}
+            user_info: {},
+            demand_list: []
         },
         methods:{
             load:function () {
@@ -96,10 +97,18 @@
                             this.user_info=response.body;
                         }
                     })
+            },
+
+            fetch_demand: function () {
+                this.$http.get("php/demand_list.php")
+                    .then(function (response) {
+                        this.demand_list=response.body;
+                    })
             }
         }
     });
-    dashboard.load();
+    demand.load();
+    demand.fetch_demand();
     $("#support_bar").load("modular/support_bar.html");
     $("#footer").load("modular/footer.html");
 </script>
