@@ -123,9 +123,8 @@
                             </div>
                                 <div class="w3-third w3-right w3-container">
                                     <h6>Packaging</h6>
-                                    <select v-model.number="product.packaging" class="w3-border" style="width:70%; font-size: 70%;" v-bind:disabled="product.isSave===1">
-                                        <option v-for="m in 6">{{m-1}}</option>
-                                    </select>
+                                    <input type="radio" :name="packaging" :value="0" v-model.number="product.packaging" v-bind:disabled="product.isSave===1"><label>No</label>
+                                    <input type="radio" :name="packaging" :value="3" v-model.number="product.packaging" v-bind:disabled="product.isSave===1"><label>Yes</label>
                                     <h6>Cost: ${{product.packaging}} M</h6>
                                 </div>
                             </div>

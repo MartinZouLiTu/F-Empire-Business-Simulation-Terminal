@@ -117,7 +117,8 @@
                 this.$http.post("php/demand_submit.php",this.selection)
                     .then(function (value) {
                         console.log(value);
-                    })
+                    });
+                window.location.reload();
             }
         }
     });
