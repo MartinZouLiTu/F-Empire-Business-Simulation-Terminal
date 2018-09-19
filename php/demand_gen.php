@@ -11,7 +11,7 @@ $count_stmt->fetch();
 $count_stmt->close();
 $sum=(int)$sum;
 $qty_array=array();
-$count *= 2;
+$count += 4;
 $sum *= 2;
 //initiator of an array
 for($n=0;$n<$count;$n++){
