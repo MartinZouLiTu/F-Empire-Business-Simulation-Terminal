@@ -19,9 +19,9 @@ else {
     $output[0]=1;
 
 
-    $insert_sql='insert into action (uid, yid, pid, price, add_ads, service_level, pkg, qty) VALUES (?,year_now(),?,?,0,0,0,?)';
+    $insert_sql='insert into action (uid, yid, pid, price, add_ads, service_level, pkg, qty) VALUES (?,year_now(),?,-?,0,0,0,-?)';
     $insert_stmt=$db->prepare($insert_sql);
-    $insert_stmt->bind_param('iii',$_SESSION['login_user'],$input['pid'],-$input['id'],-$input['qty']);
+    $insert_stmt->bind_param('iiii',$_SESSION['login_user'],$input['pid'],$input['id'],$input['qty']);
     $insert_stmt->execute();
     $insert_stmt->close();
     $output[1]=1;
@@ -30,7 +30,7 @@ else {
     $alter_stmt=$db->prepare($alter_sql);
     $alter_stmt->bind_param('iiii',$_SESSION['login_user'],$input['pid'],$input['qty'],$_SESSION['login_user']);
     $alter_stmt->execute();
-    $alter_sql->close();
+    $alter_stmt->close();
     $output[2]=1;
 
     print(json_encode($output));

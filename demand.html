@@ -62,7 +62,7 @@
                         <td><input class="w3-radio" type="radio" id="demand_item.id" :name="1" :value="demand_item" v-model="selection" v-bind:disabled="demand_item.occu===1"></td>
                     </tr>
                 </table>
-                <div class="w3-button w3-bar w3-hover-green w3-round-medium w3-light-grey">Submit</div>
+                <div class="w3-button w3-bar w3-hover-green w3-round-medium w3-light-grey" @click="submit_demand()">Submit</div>
             </div>
 
             <!--Support Bar-->
@@ -113,6 +113,12 @@
                         this.product_array=value.body;
                     })
             },
+            submit_demand:function () {
+                this.$http.post("php/demand_submit.php",this.selection)
+                    .then(function (value) {
+                        console.log(value);
+                    })
+            }
         }
     });
     demand.load();
