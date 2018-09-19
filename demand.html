@@ -38,27 +38,31 @@
                 </div>
                 <div class="well">
                     <p class="w3-text-indigo"><b>Assets</b></p>
-                    <h5><b>Cash</b></h5>${{user_info.cash}}
-                    <h5><b>Loan</b></h5>${{user_info.loan}}
+                    <h5><b>Cash</b></h5>${{user_info.cash}} M
+                    <h5><b>Loan</b></h5>${{user_info.loan}} M
                 </div>
                 <div class="well">
                     <p class="w3-text-indigo"><b>Company Value</b></p>
-                    <h4><b>${{user_info.cash-user_info.loan}}</b></h4>
+                    <h4><b>${{user_info.cash-user_info.loan}} M</b></h4>
                 </div>
             </div>
 
             <!--Content-->
             <div class="col-sm-7">
-                <div v-for="product in product_array">
-                    <h4 v-if="user_info.demand_pid === product.pid">{{product.name}}</h4>
+                <div class="w3-container w3-camo-black" v-for="product in product_array">
+                    <h5 class="w3-center" v-if="user_info.demand_pid === product.pid">{{product.name}}</h5>
                 </div>
-                <div v-for="demand_item in demand_list">
-                    <div v-if="demand_item.pid === user_info.demand_pid">
-                        <input type="radio" id="demand_item.id" :name="1" :value="demand_item" v-model="selection" v-bind:disabled="demand_item.isSelected===1">
-                        <label for="demand_item.id">{{demand_item.qty}}</label><br>
-                    </div>
-                </div>
-
+                <table class="w3-table-all w3-centered">
+                    <tr>
+                        <th>Quantity Demanded</th>
+                        <th>Selection</th>
+                    </tr>
+                    <tr v-for="demand_item in demand_list" v-if="demand_item.pid === user_info.demand_pid" >
+                        <td><h5 for="demand_item.id" v-bind:disabled="demand_item.occu===1">{{demand_item.qty}}</h5></td>
+                        <td><input class="w3-radio" type="radio" id="demand_item.id" :name="1" :value="demand_item" v-model="selection" v-bind:disabled="demand_item.occu===1"></td>
+                    </tr>
+                </table>
+                <div class="w3-button w3-bar w3-hover-green w3-round-medium w3-light-grey">Submit</div>
             </div>
 
             <!--Support Bar-->
