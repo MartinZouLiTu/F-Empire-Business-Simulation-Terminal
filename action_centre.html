@@ -55,7 +55,8 @@
                         <div class="w3-container w3-card w3-light-gray w3-round">
                             <h5><b>Loan</b></h5>
                             <h6>Unpaid debt: ${{user_info.loan}} M</h6>
-                            <input type="number" class="w3-input" placeholder="Loan amount" :max="user_info.cash" min="0" v-model.number="user_info.loanAdd"><br><br>
+                            <input type="number" class="w3-input" placeholder="Loan amount" :max="user_info.cash" v-model.number="user_info.loanAdd">
+                            <br><br>
                         </div><br><br>
 
                     </div>
@@ -110,9 +111,9 @@
                             </div>
                             <div class="w3-container">
                             <div class="w3-third w3-left w3-container">
-                                <h6>Advertising Per Product</h6>
+                                <h6>Advertising per product</h6>
                                 <input type="number" class="w3-input" placeholder="Investment Amount" min="1" max="100" v-model.number="product.adverts" v-bind:disabled="product.isSave===1">
-                                <h6>Min:$1M Max:$100M</h6>
+                                <h6>Cost: ${{product.adverts*product.qty}} M</h6>
                             </div>
                             <div class="w3-third w3-center w3-container">
                                 <h6>Service Level</h6>
@@ -122,13 +123,12 @@
                                 <h6>Current Level: {{ product.maxService }} <br>Cost: ${{product.selService*3}} M</h6>
                             </div>
                                 <div class="w3-third w3-right w3-container">
-                                    <h6>Packaging</h6>
-                                    <input type="radio" :name="packaging" :value="0" v-model.number="product.packaging" v-bind:disabled="product.isSave===1"><label>No</label>
-                                    <input type="radio" :name="packaging" :value="3" v-model.number="product.packaging" v-bind:disabled="product.isSave===1"><label>Yes</label>
+                                    <h6>Packaging | $3 M</h6>
+                                    <input type="checkbox" v-model.number="product.packaging" :true-value="3" :false-value="0" v-bind:disabled="product.isSave===1"><label>Yes</label>
                                     <h6>Cost: ${{product.packaging}} M</h6>
                                 </div>
                             </div>
-                            <h6><b>Total Cost: ${{(product.cost*product.qty)+product.adverts+product.packaging+(product.selService*3)}} M</b></h6>
+                            <h6><b>Total Cost: ${{(product.cost*product.qty)+(product.adverts*product.qty)+product.packaging+(product.selService*3)}} M</b></h6>
                             <div class="w3-bar">
                                 <button class="w3-button w3-half w3-hover-red" v-on:click="reset_product(product)" v-show="product.isSave===0">Reset</button>
                                 <button class="w3-half w3-button w3-hover-green" v-on:click="submit_product(product)"  v-show="product.isSave===0">Save</button>
@@ -176,6 +176,7 @@
                             this.$set(this.user_info,'factory_buy',0);
                             this.$set(this.user_info,'factory_rent',0);
                             this.$set(this.user_info,'loanAdd',0);
+                            this.$set(this.user_info,'loanMin',0);
                         }
                     })
             },
@@ -202,7 +203,7 @@
             },
             submit_product:function (submit_prod) {
                 if(confirm("Are you sure?")) {
-                    var total_cost = (submit_prod.cost*submit_prod.qty)+submit_prod.adverts+submit_prod.packaging+(submit_prod.selService*3);
+                    var total_cost = (submit_prod.cost*submit_prod.qty)+(submit_prod.adverts*submit_prod.qty)+submit_prod.packaging+(submit_prod.selService*3);
                     if(this.user_info.cash >= total_cost) {
                         console.log(submit_prod);
                         this.$set(submit_prod,'totalCost', total_cost);
@@ -220,8 +221,11 @@
             },
             submit_global_var:function () {
                 if(confirm("Are you sure?")){
-                    if(this.user_info.loanAdd < 0) {
-                        alert("Invalid value on Loan");
+                    if(this.user_info.loanAdd < -this.user_info.loan){
+                        alert("Invalid request: Your loan payment exceed the loan value");
+                    }
+                    else if(this.user_info.loanAdd > this.user_info.cash){
+                        alert("Invalid request: You don't have enough fund to pay back the loan");
                     }
                     else if(this.user_info.factory_buy < 0){
                         alert("Invalid value on Buy Factory");
@@ -231,11 +235,12 @@
                     }
                     else {
                         console.log(this.user_info);
-                        this.set(this.user_info,'globalCost',this.user_info.loanAdd+(this.user_info.factory_buy*10)+(this.user_info.factory_rent*3));
+                        this.$set(this.user_info,'globalCost',this.user_info.loanAdd+(this.user_info.factory_buy*10)+(this.user_info.factory_rent*3));
                         this.$http.post("php/alter_global_var.php", this.user_info)
                             .then(function (response) {
                                 console.log(response.body);
                             });
+                        alert("Submit success!");
                         window.location.reload();
                     }
                 }
