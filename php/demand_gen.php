@@ -1,7 +1,7 @@
 <?php
 include('db.php');
 $pid=$_GET['pid'];
-$count_sql = 'select count(*), sum(qty) from action where yid=year_now() and pid=?';
+$count_sql = 'select count(*), sum(qty) from action where yid=year_now() and pid=? and qty>=0';
 $insert_sql = 'insert into demand(yid, pid, qty, occu) values (year_now(),?,?,0)';
 $count_stmt = $db -> prepare($count_sql);
 $count_stmt->bind_param('i',$pid);
