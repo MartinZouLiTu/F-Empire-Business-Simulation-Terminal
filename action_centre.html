@@ -163,7 +163,8 @@
         el:'#info',
         data:{
             user_info:{},
-            product_array:[]
+            product_array:[],
+            current_stock:[]
 
 
         },
@@ -245,11 +246,19 @@
                         window.location.reload();
                     }
                 }
+            },
+            fetch_stock:function () {
+                this.$http.get("php/current_stock.php")
+                    .then(function (value) {
+                        console.log(value.body);
+                        this.current_stock=value.body;
+                    })
             }
         }
     });
     actionCenter.load();
     actionCenter.load_product();
+    actionCenter.fetch_stock();
     $("#support_bar").load("modular/support_bar.html");
     $("#footer").load("modular/footer.html");
 
