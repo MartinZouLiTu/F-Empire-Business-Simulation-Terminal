@@ -33,5 +33,12 @@ else {
     $alter_stmt->close();
     $output[2]=1;
 
+    $log_sql='insert into log (uid, yid, company_value) values (?,year_now(), (select (cash+20) from company_info where user_id=?))';
+    $log_stmt=$db->prepare($log_sql);
+    $log_stmt->bind_param('ii',$_SESSION['login_user'],$_SESSION['login_user']);
+    $log_stmt->execute();
+    $log_sql->close();
+    $output[3]=1;
+
     print(json_encode($output));
 }
