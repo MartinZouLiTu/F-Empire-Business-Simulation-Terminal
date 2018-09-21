@@ -86,7 +86,8 @@
             user_info: {},
             demand_list: [],
             selection: {},
-            product_array: []
+            product_array: [],
+            current_stock: []
         },
         methods:{
             load:function () {
@@ -113,20 +114,34 @@
                         this.product_array=value.body;
                     })
             },
-            submit_demand:function () {
-                this.$http.post("php/demand_submit.php",this.selection)
+            fetch_stock:function () {
+                this.$http.get("php/current_stock.php")
                     .then(function (value) {
-                        console.log(value);
-                        var text = "Revenue: "+value.body.revenue+", After Tax: "+value.body.revenue_after_tax;
-                        alert(text);
-                    });
-                window.location.reload();
+                        console.log(value.body);
+                        this.current_stock=value.body;
+                    })
+            },
+            submit_demand:function () {
+                if (this.current_stock[this.user_info.demand_pid] >= this.selection.qty) {
+                    this.$http.post("php/demand_submit.php", this.selection)
+                        .then(function (value) {
+                            console.log(value);
+                            var text = "Revenue: " + value.body.revenue + ", After Tax: " + value.body.revenue_after_tax;
+                            if(alert(text)){
+                                window.location.reload();
+                            }
+                        });
+                }
+                else {
+                    alert("You don't have enough produce to satisfy the demand.");
+                }
             }
         }
     });
     demand.load();
     demand.fetch_demand();
     demand.load_product();
+    demand.fetch_stock();
     $("#support_bar").load("modular/support_bar.html");
     $("#footer").load("modular/footer.html");
 </script>

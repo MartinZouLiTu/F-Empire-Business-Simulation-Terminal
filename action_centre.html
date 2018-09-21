@@ -39,13 +39,17 @@
                 </div>
                 <!--List-->
                 <div class="well">
+                    <p class="w3-text-indigo"><b>Production Capacity</b></p0>
+                    <h5><b>Total Space</b></h5>{{user_info.total_fac*8}}
+                </div>
+                <div class="well">
                     <p class="w3-text-indigo"><b>Assets</b></p>
                     <h5><b>Cash</b></h5>${{user_info.cash}} M
                     <h5><b>Loan</b></h5>${{user_info.loan}} M
-                </div>
-                <div class="well">
-                    <p class="w3-text-indigo"><b>Production Capacity</b></p0>
-                    <h5><b>Total Space</b></h5>{{user_info.total_fac*8}}
+                    <br><br>
+                    <p class="w3-text-indigo"><b>Tax & Interest rate</b></p>
+                    <h6><b>Loan Interest</b>: 10%</h6>
+                    <h6><b>Tax on Revenue</b>: 5%</h6>
                 </div>
                 <div class="w3-button w3-indigo w3-bar w3-round w3-hover-blue" onclick="openWin()"><h5>News Portal</h5></div>
             </div>
@@ -55,12 +59,13 @@
                 <div onclick="myFunction('Global_var')" class="w3-button w3-camo-black w3-hover-black col-sm-12"><h5>Global Decisions</h5></div>
 
                 <div id="Global_var" class="w3-container w3-hide w3-card"><br>
-                    <div class="w3-container w3-half">
+                    <div class="w3-container w3-half">action
                         <div class="w3-container w3-card w3-light-gray w3-round">
                             <h5><b>Loan</b></h5>
                             <h6>Unpaid debt: ${{user_info.loan}} M</h6>
+                            <h6 class="w3-text-red">Input negative value for payment</h6>
                             <input type="number" class="w3-input" placeholder="Loan amount" :max="user_info.cash" v-model.number="user_info.loanAdd">
-                            <br><br>
+                            <h6><b>Interest rate:</b> 10%<br>Deducted at the end of the year.</h6>
                         </div><br><br>
 
                     </div>
@@ -143,6 +148,17 @@
                         <br><br>
                     </div>
                 </div>
+                <div><br><br><br><br></div>
+                    <div class="well w3-container">
+                        <h5><b>Current Production</b></h5>
+                        <div v-for="produce in product_array">
+                            <div class="w3-quarter">
+                                <h6>{{produce.name}}</h6>
+                                <h4>{{current_stock[produce.pid]}}</h4>
+                            </div>
+                        </div>
+                    </div>
+
 
 
 
