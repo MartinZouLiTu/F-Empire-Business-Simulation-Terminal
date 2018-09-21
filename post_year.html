@@ -85,21 +85,46 @@
         el:'#info',
         data:{
 
-            user_info: {}
+            user_info: {},
+            current_stock: []
         },
         methods:{
             load:function () {
                 this.$http.get("php/session.php")
                     .then(function (response) {
-                        if(response.body=='no_session'){window.location.href='login.html';}
+                        if(response.body==='no_session'){window.location.href='login.html';}
                         else{
                             this.user_info=response.body;
                         }
                     })
+            },
+            fetch_stock:function () {
+                this.$http.get("php/current_stock.php")
+                    .then(function (value) {
+                        console.log(value.body);
+                        this.current_stock=value.body;
+                    })
+            },
+            submit_global_var:function () {
+                if(confirm("Are you sure?")){
+                    console.log(this.user_info);
+                    this.$set(this.user_info,'globalCost',this.user_info.loan*0.1+(this.user_info.factory_buy*10)+(this.user_info.factory_rent*3));
+                    this.$http.post("php/alter_global_var.php", this.user_info)
+                        .then(function (response) {
+                            console.log(response.body);
+                            this.$http.get("php/finalized.php")
+                                .then(function (value) {
+                                    alert("Submit success!");
+                                });
+                        });
+
+                    window.location.reload();
+                }
             }
         }
     });
     post_year.load();
+    post_year.fetch_stock();
     $("#support_bar").load("modular/support_bar.html");
     $("#footer").load("modular/footer.html");
 </script>
