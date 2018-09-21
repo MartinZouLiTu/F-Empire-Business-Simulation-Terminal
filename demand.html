@@ -117,6 +117,8 @@
                 this.$http.post("php/demand_submit.php",this.selection)
                     .then(function (value) {
                         console.log(value);
+                        var text = "Revenue: "+value.body.revenue+", After Tax: "+value.body.revenue_after_tax;
+                        alert(text);
                     });
                 window.location.reload();
             }

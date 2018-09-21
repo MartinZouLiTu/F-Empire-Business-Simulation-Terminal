@@ -31,7 +31,7 @@ else {
     $alter_stmt->execute();
     $alter_stmt->close();
 
-    $info_sql='select current_price(?,?)*?';
+    $info_sql='select current_price(?,?)*? from `action` where 1=1';
     $info_stmt = $db->prepare($info_sql);
     $info_stmt->bind_param('iii',$_SESSION['login_user'],$input['pid'],$input['qty']);
     $info_stmt->execute();
