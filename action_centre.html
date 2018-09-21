@@ -43,6 +43,10 @@
                     <h5><b>Cash</b></h5>${{user_info.cash}} M
                     <h5><b>Loan</b></h5>${{user_info.loan}} M
                 </div>
+                <div class="well">
+                    <p class="w3-text-indigo"><b>Production Capacity</b></p0>
+                    <h5><b>Total Space</b></h5>{{user_info.total_fac*8}}
+                </div>
                 <div class="w3-button w3-indigo w3-bar w3-round w3-hover-blue" onclick="openWin()"><h5>News Portal</h5></div>
             </div>
 
@@ -205,19 +209,24 @@
             },
             submit_product:function (submit_prod) {
                 if(confirm("Are you sure?")) {
-                    var total_cost = (submit_prod.cost*submit_prod.qty)+(submit_prod.adverts)+submit_prod.packaging+(submit_prod.selService*3);
-                    if(this.user_info.cash >= total_cost) {
-                        console.log(submit_prod);
-                        this.$set(submit_prod,'totalCost', total_cost);
-                        this.$http.post("php/add_action.php", submit_prod)
-                            .then(function (response) {
-                                console.log(response.body);
-                            });
-                        alert("Submit success!");
-                        window.location.reload();
+                    var total_cost = (submit_prod.cost * submit_prod.qty) + (submit_prod.adverts) + submit_prod.packaging + (submit_prod.selService * 3);
+                    if (submit_prod.qty <= this.user_info.total_fac * 8) {
+                        if (this.user_info.cash >= total_cost) {
+                            console.log(submit_prod);
+                            this.$set(submit_prod, 'totalCost', total_cost);
+                            this.$http.post("php/add_action.php", submit_prod)
+                                .then(function (response) {
+                                    console.log(response.body);
+                                });
+                            alert("Submit success!");
+                            window.location.reload();
+                        }
+                        else {
+                            alert("You don't have enough funds");
+                        }
                     }
                     else {
-                        alert("You don't have enough funds");
+                        alert("You don't have enough capacity.");
                     }
                 }
             },
