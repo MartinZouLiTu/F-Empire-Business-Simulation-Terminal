@@ -24,14 +24,14 @@ else {
     else{$output['loan']=0;}
     $loan_stmt->close();
 
-    $perm_sql = 'insert into factory values (?,0,?)';
+    $perm_sql = 'insert into factory(uid, type, qty) values (?,0,?)';
     $perm_stmt=$db->prepare($perm_sql);
     $perm_stmt->bind_param('ii',$_SESSION['login_user'],$input['factory_buy']);
     if($perm_stmt->execute()){$output['perm']=1;}
     else{$output['perm']=0;}
     $perm_stmt->close();
 
-    $temp_sql = 'insert into factory values (?,year_now(),?)';
+    $temp_sql = 'insert into factory(uid, type, qty) values (?,year_now(),?)';
     $temp_stmt=$db->prepare($temp_sql);
     $temp_stmt->bind_param('ii',$_SESSION['login_user'],$input['factory_rent']);
     if($temp_stmt->execute()){$output['temp']=1;}
