@@ -148,8 +148,8 @@
             submit_global_var:function () {
                 if(confirm("Are you sure?")){
                     console.log(this.user_info);
-                    if(Math.ceil((current_stock[0]-(user_info.perm_fac*8))/8)>0){
-                        this.user_info.factory_rent=Math.ceil((current_stock[0]-(user_info.perm_fac*8))/8);
+                    if(Math.ceil((this.current_stock[0]-(this.user_info.perm_fac*8))/8)>0){
+                        this.user_info.factory_rent=Math.ceil((this.current_stock[0]-(this.user_info.perm_fac*8))/8);
                     }
                     else{
                         this.user_info.factory_rent=0;
