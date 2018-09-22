@@ -73,9 +73,19 @@
                             <h6><b>Number of factories (owned): </b></h6>
                             <h4>{{user_info.perm_fac}}</h4>
                             <br>
-                            <h6><b></b></h6>
-                            <h4 v-if="current_stock[0]-(user_info.perm_fac*8) >= 0">{{current_stock[0]-(user_info.perm_fac*8)}}</h4>
-                            <h4 v-else>0</h4>
+
+                            <div v-if="current_stock[0]-(user_info.perm_fac*8) >= 0">
+                                <h6><b>Product unable to store:</b></h6>
+                                <h4>{{current_stock[0]-(user_info.perm_fac*8)}}</h4>
+                                <h6><b>Additional factories needed:</b></h6>
+                                <h4>{{Math.ceil((current_stock[0]-(user_info.perm_fac*8))/8)}}</h4>
+                            </div>
+                                <div v-else><h4>0</h4>
+                                    <h6><b>Product unable to store:</b></h6>
+                                    <h4>0</h4>
+                                    <h6><b>Additional factories needed:</b></h6>
+                                    <h4>0</h4>
+                                </div><br>
                         </div>
                     </div>
                 </div>
