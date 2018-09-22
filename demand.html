@@ -127,7 +127,10 @@
                         .then(function (value) {
                             console.log(value);
                             var text = "Revenue: " + value.body.revenue + ", After Tax: " + value.body.revenue_after_tax;
-                            if(alert(text)){
+                            if(confirm(text)){
+                                window.location.reload();
+                            }
+                            else{
                                 window.location.reload();
                             }
                         });
