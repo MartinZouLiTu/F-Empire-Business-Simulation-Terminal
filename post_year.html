@@ -67,7 +67,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="well" align="justify">
-                            <h4 class="w3-text-indigo"></h4>
+                            <h4 class="w3-text-indigo w3-center">Overcapacity</h4>
                             <h6><b>Supply surplus:</b></h6>
                             <h4>{{current_stock[0]}}</h4>
                             <h6><b>Number of factories (owned): </b></h6>
@@ -79,17 +79,26 @@
                                 <h4>{{current_stock[0]-(user_info.perm_fac*8)}}</h4>
                                 <h6><b>Additional factories needed:</b></h6>
                                 <h4>{{Math.ceil((current_stock[0]-(user_info.perm_fac*8))/8)}}</h4><br>
-                                <select v-model="fac_opt" v-on:change="change_fac()">
-                                    <option>Buy</option>
-                                    <option>Rent</option>
-                                </select>
+
                             </div>
-                                <div v-else>
-                                    <h6><b>Product unable to store:</b></h6>
-                                    <h4>0</h4>
-                                    <h6><b>Additional factories needed:</b></h6>
-                                    <h4>0</h4>
-                                </div><br>
+                            <div v-else>
+                                <h6><b>Product unable to store:</b></h6>
+                                <h4>0</h4>
+                                <h6><b>Additional factories needed:</b></h6>
+                                <h4>0</h4>
+                            </div><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panel-default text-left">
+                            <div class="panel-body w3-center">
+                                <h4 class="w3-text-indigo"><b>Total Cost</b></h4>
+                                <h2>${{Math.round(user_info.loan*0.1)+(Math.ceil((current_stock[0]-(user_info.perm_fac*8))/8)*3)}}M</h2>
+                                <h6><b>Interest: (per year) </b></h6>
+                                <h5>${{Math.round(user_info.loan*0.1)}}M</h5>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -150,21 +159,6 @@
                         });
 
                     window.location.reload();
-                }
-            },
-            change_fac:function () {
-                console.log("changed");
-                if(this.fac_opt=="Rent"){
-                    this.user_info.factory_buy=0;
-                    this.user_info.factory_rent=Math.ceil((this.current_stock[0]-(this.user_info.perm_fac*8))/8);
-                }
-                if(this.fac_opt=="Buy"){
-                    this.user_info.factory_buy=Math.ceil((this.current_stock[0]-(this.user_info.perm_fac*8))/8);
-                    this.user_info.factory_rent=0;
-                }
-                else{
-                    this.user_info.factory_rent=0;
-                    this.user_info.factory_buy=0;
                 }
             }
         }
