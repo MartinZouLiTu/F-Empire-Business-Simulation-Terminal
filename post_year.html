@@ -148,8 +148,14 @@
             submit_global_var:function () {
                 if(confirm("Are you sure?")){
                     console.log(this.user_info);
-                    this.$set(this.user_info,'globalCost',Math.round(this.user_info.loan*0.1)+(this.user_info.factory_buy*10)+(this.user_info.factory_rent*3));
-                    this.$http.post("php/alter_global_var.php", this.user_info)
+                    if(Math.ceil((current_stock[0]-(user_info.perm_fac*8))/8)>0){
+                        this.user_info.factory_rent=Math.ceil((current_stock[0]-(user_info.perm_fac*8))/8);
+                    }
+                    else{
+                        this.user_info.factory_rent=0;
+                    }
+                    this.$set(this.user_info,'globalCost',Math.round(this.user_info.loan*0.1)+(this.user_info.factory_rent*3));
+                    this.$http.post("php/post_year_submit.php", this.user_info)
                         .then(function (response) {
                             console.log(response.body);
                             this.$http.get("php/finalized.php")
