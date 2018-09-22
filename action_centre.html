@@ -227,15 +227,20 @@
                 if(confirm("Are you sure?")) {
                     var total_cost = (submit_prod.cost * submit_prod.qty) + (submit_prod.adverts) + submit_prod.packaging + (submit_prod.selService * 3);
                     if (submit_prod.qty <= this.user_info.total_fac * 8) {
-                        if (this.user_info.cash >= total_cost) {
-                            console.log(submit_prod);
-                            this.$set(submit_prod, 'totalCost', total_cost);
-                            this.$http.post("php/add_action.php", submit_prod)
-                                .then(function (response) {
-                                    console.log(response.body);
-                                });
-                            alert("Submit success!");
-                            window.location.reload();
+                        if (this.submit_prod.adverts >= this.submit_prod.qty) {
+                            if (this.user_info.cash >= total_cost) {
+                                console.log(submit_prod);
+                                this.$set(submit_prod, 'totalCost', total_cost);
+                                this.$http.post("php/add_action.php", submit_prod)
+                                    .then(function (response) {
+                                        console.log(response.body);
+                                    });
+                                alert("Submit success!");
+                                window.location.reload();
+                            }
+                            else {
+                                alert("Advertisement minimum value does not match with quantity produced.");
+                            }
                         }
                         else {
                             alert("You don't have enough funds");
