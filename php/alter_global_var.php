@@ -11,9 +11,9 @@ else {
     $output=array();
     $input = json_decode(file_get_contents("php://input"),true);
 
-    $deduct_sql = 'update company_info set cash=cash-? where user_id=?';
+    $deduct_sql = 'update company_info set cash=cash-?+? where user_id=?';
     $deduct_stmt = $db -> prepare($deduct_sql);
-    $deduct_stmt ->bind_param('ii',$input['totalCost'],$_SESSION['login_user']);
+    $deduct_stmt ->bind_param('iii',$input['globalCost'],$input['loanAdd'],$_SESSION['login_user']);
     $deduct_stmt ->execute();
     $deduct_stmt ->close();
 

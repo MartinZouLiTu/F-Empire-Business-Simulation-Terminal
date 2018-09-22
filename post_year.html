@@ -155,6 +155,18 @@
             },
             change_fac:function () {
                 console.log("changed");
+                if(this.fac_opt=="Rent"){
+                    this.user_info.factory_buy=0;
+                    this.user_info.factory_rent=Math.ceil((this.current_stock[0]-(this.user_info.perm_fac*8))/8);
+                }
+                if(this.fac_opt=="Buy"){
+                    this.user_info.factory_buy=Math.ceil((this.current_stock[0]-(this.user_info.perm_fac*8))/8);
+                    this.user_info.factory_rent=0;
+                }
+                else{
+                    this.user_info.factory_rent=0;
+                    this.user_info.factory_buy=0;
+                }
             }
         }
     });

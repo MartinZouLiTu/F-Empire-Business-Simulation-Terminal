@@ -81,7 +81,7 @@
                                 <label>Rent</label>
                                 <input type="number" class="w3-input" placeholder="Rent" min="0" v-model.number="user_info.factory_rent">
                             </div>
-                            <h6><b>Total Cost: </b>${{user_info.factory_buy*5+user_info.factory_rent*3}} </h6>
+                            <h6><b>Total Cost: </b>${{user_info.factory_buy*10+user_info.factory_rent*3}} M</h6>
                         </div>
                     </div>
                     <div class="w3-container">
@@ -120,7 +120,7 @@
                             </div>
                             <div class="w3-container">
                             <div class="w3-third w3-left w3-container">
-                                <h6>Advertising per product</h6>
+                                <h6>Advertisement</h6>
                                 <input type="number" class="w3-input" placeholder="Investment Amount" :min="1*product.qty" :max="3*product.qty" v-model.number="product.adverts" v-bind:disabled="product.isSave===1">
                                 <h6>Min: ${{1*product.qty}}M | Max: ${{3*product.qty}}M</h6>
                                 <h6>Cost: ${{product.adverts}} M</h6>
