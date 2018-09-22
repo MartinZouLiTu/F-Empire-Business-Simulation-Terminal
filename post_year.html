@@ -18,9 +18,11 @@
     <!--Top Bar-->
     <div class="w3-container w3-camo-black w3-center w3-bar w3-tiny w3-top">
         <div class="w3-bar-item"><h5>F-Empire</h5></div>
-        <a href="#"><div class="w3-bar-item w3-black w3-button w3-hover-black"><h5>Home</h5></div></a>
+        <a href="dashboard.html"><div class="w3-bar-item w3-black w3-button w3-hover-black"><h5>Home</h5></div></a>
         <a href="action_centre.html"><div class="w3-bar-item w3-hover-black w3-button w3-text-white"><h5>Action Centre</h5></div></a>
         <a href="demand.html"><div class="w3-bar-item w3-hover-black w3-button w3-text-white"><h5>Demand</h5></div></a>
+        <a href="#"><div class="w3-bar-item w3-hover-black w3-button w3-text-white"><h5>Post-Year</h5></div></a>
+
 
         <a href="php/logout.php"><div class="w3-right w3-bar-item w3-hover-red w3-text-white"><h5>Log Out</h5></div></a>
         <div class="w3-bar-item w3-right"><h5><span class="glyphicon glyphicon-user"></span> {{user_info.username}}</h5></div>
@@ -52,8 +54,12 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="panel panel-default text-left">
-                            <div class="panel-body">
-                                <h4>Statistics</h4>
+                            <div class="panel-body w3-center">
+                                <h4 class="w3-text-indigo"><b>Loan Details</b></h4>
+                                <h6><b>Loan: </b></h6>
+                                <h5>${{user_info.loan}}M</h5>
+                                <h6><b>Interest: (per year) </b></h6>
+                                <h5>${{user_info.loan*0.1}}M</h5>
                             </div>
                         </div>
                     </div>
