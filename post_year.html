@@ -109,6 +109,8 @@
                         if(response.body==='no_session'){window.location.href='login.html';}
                         else{
                             this.user_info=response.body;
+                            this.$set(this.user_info,'factory_buy',0);
+                            this.$set(this.user_info,'factory_rent',0);
                         }
                     })
             },
