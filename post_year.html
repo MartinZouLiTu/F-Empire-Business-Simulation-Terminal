@@ -98,6 +98,7 @@
                                 <h2>${{Math.round(user_info.loan*0.1)+(Math.ceil((current_stock[0]-(user_info.perm_fac*8))/8)*3)}}M</h2>
                                 <h6><b>Interest: (per year) </b></h6>
                                 <h5>${{Math.round(user_info.loan*0.1)}}M</h5>
+                                <button class="w3-button" @click="submit_global_var()">Submit</button>
                             </div>
                         </div>
                     </div>
